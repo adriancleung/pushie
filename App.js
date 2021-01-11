@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
-import {Home} from '@app/views';
 import messaging from '@react-native-firebase/messaging';
+import {Navigator} from '@app/navigation';
 
 const requestUserPermission = async () => {
   const authStatus = await messaging().requestPermission();
@@ -17,7 +17,7 @@ const App = () => {
     requestUserPermission();
   }, []);
 
-  return <Home />;
+  return <Navigator />;
 };
 
 export default App;

@@ -6,9 +6,12 @@ import {
   FlatList,
   StyleSheet,
 } from 'react-native';
+import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
-import {NotificationRow} from '@app/components';
 import axios from 'axios';
+import {NotificationRow} from '@app/components';
+import {logoutUser, getNotifications} from '@app/services';
+import {API_URL} from '@env';
 
 const Home = () => {
   const [notifications, setNotifications] = useState([]);
@@ -30,33 +33,26 @@ const Home = () => {
     />
   );
 
-  const saveTokenToFirestore = async (token) => {
-    axios.post('http://10.10.10.73:3001/notify/token', {token});
-  };
-
-  const getNotifications = async () => {
+  const loadNotifications = async () => {
     setLoading(true);
-    const ref = await axios.get('http://10.10.10.73:3001/notify');
-    setNotifications(ref.data);
+    const res = getNotifications(auth().currentUser.uid);
+    setNotifications(res);
     setLoading(false);
   };
 
   useEffect(() => {
-    messaging()
-      .getToken()
-      .then((token) => saveTokenToFirestore(token));
-    getNotifications();
+    loadNotifications();
   }, []);
 
   return (
     <>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle={'dark-content'} />
       <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>pushie</Text>
+        <Text style={styles.title} onPress={() => logoutUser()}>pushie</Text>
         <Text style={styles.subtitle}>Notifications</Text>
         <FlatList
           refreshing={loading}
-          onRefresh={() => getNotifications()}
+          onRefresh={() => loadNotifications()}
           data={notifications}
           renderItem={renderNotificationRow}
           keyExtractor={(notificationItem) => notificationItem.id}
@@ -70,6 +66,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
+    backgroundColor: 'white',
   },
   title: {
     paddingHorizontal: 20,
