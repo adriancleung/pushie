@@ -5,7 +5,12 @@ import {
   Text,
   TextInput,
   StyleSheet,
-  Button,
+  View,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import {handleLogin} from '@app/services';
 
@@ -21,34 +26,50 @@ const Login = () => {
     <>
       <StatusBar barStyle={'dark-content'} />
       <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>pushie</Text>
-        <TextInput
-          style={styles.username}
-          placeholder={'Email Address'}
-          autoCompleteType={'email'}
-          autoCorrect={false}
-          autoCapitalize={'none'}
-          enablesReturnKeyAutomatically={true}
-          keyboardType={'email-address'}
-          returnKeyType={'next'}
-          onChangeText={(value) => onTextChange(email, value)}
-        />
-        <TextInput
-          style={styles.password}
-          placeholder={'Password'}
-          autoCompleteType={'password'}
-          autoCorrect={false}
-          autoCapitalize={'none'}
-          enablesReturnKeyAutomatically={true}
-          secureTextEntry={true}
-          returnKeyType={'go'}
-          onChangeText={(value) => onTextChange(password, value)}
-          onSubmitEditing={() => handleLogin(email.current, password.current)}
-        />
-        <Button
-          title={'Login or Signup'}
-          onPress={() => handleLogin(email.current, password.current)}
-        />
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={styles.container}>
+            <View style={styles.thirds}>
+              <Text style={styles.title}>pushie</Text>
+            </View>
+            <View style={styles.thirds}>
+              <TextInput
+                style={styles.username}
+                placeholder={'Email Address'}
+                placeholderTextColor={'#0080ff'}
+                autoCompleteType={'email'}
+                autoCorrect={false}
+                autoCapitalize={'none'}
+                enablesReturnKeyAutomatically={true}
+                keyboardType={'email-address'}
+                returnKeyType={'next'}
+                onChangeText={(value) => onTextChange(email, value)}
+              />
+              <TextInput
+                style={styles.password}
+                placeholder={'Password'}
+                placeholderTextColor={'#0080ff'}
+                autoCompleteType={'password'}
+                autoCorrect={false}
+                autoCapitalize={'none'}
+                enablesReturnKeyAutomatically={true}
+                secureTextEntry={true}
+                returnKeyType={'go'}
+                onChangeText={(value) => onTextChange(password, value)}
+                onSubmitEditing={() =>
+                  handleLogin(email.current, password.current)
+                }
+              />
+            </View>
+            <View style={styles.thirds}>
+              <TouchableOpacity
+                onPress={() => handleLogin(email.current, password.current)}>
+                <Text style={styles.loginButton}>Login or Signup</Text>
+              </TouchableOpacity>
+            </View>
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
       </SafeAreaView>
     </>
   );
@@ -57,24 +78,43 @@ const Login = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: '100%',
     marginTop: StatusBar.currentHeight || 0,
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
   },
+  thirds: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   title: {
-    padding: 20,
-    fontSize: 50,
+    fontSize: 90,
     fontWeight: '900',
     color: '#0080ff',
   },
   username: {
-    padding: 10,
+    padding: 20,
     fontSize: 20,
+    color: '#0080ff',
+    borderBottomColor: '#0080ff',
+    borderBottomWidth: 1,
+    width: '70%',
   },
   password: {
-    padding: 10,
+    padding: 20,
     fontSize: 20,
+    color: '#0080ff',
+    borderBottomColor: '#0080ff',
+    borderBottomWidth: 1,
+    width: '70%',
+  },
+  loginButton: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#0080ff',
   },
 });
 

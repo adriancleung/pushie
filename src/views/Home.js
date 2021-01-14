@@ -5,13 +5,13 @@ import {
   Text,
   FlatList,
   StyleSheet,
+  View,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
-import axios from 'axios';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import {NotificationRow} from '@app/components';
 import {logoutUser, getNotifications} from '@app/services';
-import {API_URL} from '@env';
 
 const Home = () => {
   const [notifications, setNotifications] = useState([]);
@@ -19,7 +19,7 @@ const Home = () => {
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async () => {
-      getNotifications();
+      loadNotifications();
     });
 
     return unsubscribe;
@@ -35,7 +35,7 @@ const Home = () => {
 
   const loadNotifications = async () => {
     setLoading(true);
-    const res = getNotifications(auth().currentUser.uid);
+    const res = await getNotifications(auth().currentUser.uid);
     setNotifications(res);
     setLoading(false);
   };
@@ -48,8 +48,20 @@ const Home = () => {
     <>
       <StatusBar barStyle={'dark-content'} />
       <SafeAreaView style={styles.container}>
-        <Text style={styles.title} onPress={() => logoutUser()}>pushie</Text>
-        <Text style={styles.subtitle}>Notifications</Text>
+        <View style={styles.splitTop}>
+          <View>
+            <Text style={styles.title}>pushie</Text>
+            <Text style={styles.subtitle}>Notifications</Text>
+          </View>
+          <View>
+            <Icon
+              name={'login'}
+              size={40}
+              style={styles.logoutButton}
+              onPress={() => logoutUser()}
+            />
+          </View>
+        </View>
         <FlatList
           refreshing={loading}
           onRefresh={() => loadNotifications()}
@@ -68,6 +80,11 @@ const styles = StyleSheet.create({
     marginTop: StatusBar.currentHeight || 0,
     backgroundColor: 'white',
   },
+  splitTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   title: {
     paddingHorizontal: 20,
     fontSize: 50,
@@ -78,6 +95,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     fontSize: 24,
     fontWeight: 'bold',
+  },
+  logoutButton: {
+    paddingHorizontal: 20,
   },
 });
 
