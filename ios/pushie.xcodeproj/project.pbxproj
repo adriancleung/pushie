@@ -740,7 +740,7 @@
 				CODE_SIGN_ENTITLEMENTS = pushie/pushie.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 7AQYSB822F;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = pushie/Info.plist;
@@ -769,7 +769,7 @@
 				CODE_SIGN_ENTITLEMENTS = pushie/pushie.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 7AQYSB822F;
 				INFOPLIST_FILE = pushie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -1,12 +1,13 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {getLocalDateTime} from '@app/util';
 
 const NotificationRow = ({title, shortDescription, timestamp}) => (
   <View style={styles.notificationRow}>
     <Text style={styles.notificationTitle}>{title}</Text>
     <Text style={styles.notificationShortDescription}>{shortDescription}</Text>
     <View style={styles.notificationFooter}>
-      <Text style={styles.notificationTime}>{timestamp}</Text>
+      <Text style={styles.notificationTime}>{getLocalDateTime(timestamp)}</Text>
     </View>
   </View>
 );

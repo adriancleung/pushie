@@ -7,13 +7,12 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {NotificationRow} from '@app/components';
-import {logoutUser, getNotifications} from '@app/services';
+import {getNotifications} from '@app/services';
 
-const Home = () => {
+const Home = ({navigation}) => {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -35,7 +34,7 @@ const Home = () => {
 
   const loadNotifications = async () => {
     setLoading(true);
-    const res = await getNotifications(auth().currentUser.uid);
+    const res = await getNotifications();
     setNotifications(res);
     setLoading(false);
   };
@@ -55,10 +54,10 @@ const Home = () => {
           </View>
           <View>
             <Icon
-              name={'login'}
-              size={40}
+              name={'settings'}
+              size={30}
               style={styles.logoutButton}
-              onPress={() => logoutUser()}
+              onPress={() => navigation.navigate('Settings')}
             />
           </View>
         </View>

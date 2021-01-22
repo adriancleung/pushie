@@ -1,3 +1,4 @@
+import {getLocalDateTime} from './dateTime';
 import {storeData, getData} from './storage';
 
-export {storeData, getData};
+export {getLocalDateTime, storeData, getData};
