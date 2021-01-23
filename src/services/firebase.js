@@ -1,6 +1,11 @@
 import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
-import {createUserInDb, saveUserDeviceToken} from '@app/services';
+import {
+  createUserInDb,
+  saveUserDeviceToken,
+  getUserApiKey,
+} from '@app/services';
+import {storeData, clearStorage} from '@app/util';
 
 const handleLogin = async (email, password) => {
   try {
@@ -8,6 +13,8 @@ const handleLogin = async (email, password) => {
     await createUserInDb(email);
     const token = await messaging().getToken();
     await saveUserDeviceToken(token);
+    const apiKey = await getUserApiKey();
+    await storeData('@apiKey', apiKey);
   } catch (err) {
     if (err.code !== undefined && err.code === 'auth/email-already-in-use') {
       await loginUser(email, password);
@@ -24,6 +31,8 @@ const loginUser = async (email, password) => {
     await auth().signInWithEmailAndPassword(email, password);
     const token = await messaging().getToken();
     await saveUserDeviceToken(token);
+    const apiKey = await getUserApiKey();
+    await storeData('@apiKey', apiKey);
   } catch (err) {
     if (err.code !== undefined && err.code === 'auth/wrong-password') {
       console.log('Invalid password');
@@ -38,8 +47,10 @@ const loginUser = async (email, password) => {
   }
 };
 
-const logoutUser = () => {
-  auth().signOut();
+const logoutUser = async () => {
+  await saveUserDeviceToken('');
+  await auth().signOut();
+  await clearStorage();
 };
 
 const getUserIdToken = async () => {

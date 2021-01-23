@@ -8,15 +8,16 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import auth from '@react-native-firebase/auth';
 import {Menlo} from '@app/components';
-import {logoutUser, getUserApiKey} from '@app/services';
+import {logoutUser} from '@app/services';
+import {getData} from '@app/util';
+import {name, version} from '../../package.json';
 
 const Settings = ({navigation}) => {
   const [apiKey, setApiKey] = useState('');
 
   useEffect(() => {
-    getUserApiKey()
+    getData('@apiKey')
       .then((value) => setApiKey(value))
       .catch((err) => console.error(err));
   }, []);
@@ -47,23 +48,23 @@ const Settings = ({navigation}) => {
               </Text>
             </View>
             <View style={styles.settingItem}>
-              <Text style={styles.settingKey}>User ID</Text>
-              <Text style={styles.settingValue} selectable={true}>
-                {auth().currentUser.uid}
+              <Text style={styles.settingKey}>How to Use:</Text>
+              <Text style={styles.howToText}>
+                1. Create a <Menlo>POST</Menlo> request to{' '}
+                <Menlo>https://api.adrianleung.dev/pushie/notify</Menlo> and set
+                the header <Menlo>pushie-api-key</Menlo> to the API key listed
+                above.{'\n\n'}2. In the JSON body, include a{' '}
+                <Menlo>title</Menlo>, <Menlo>shortDescription</Menlo>, and{' '}
+                <Menlo>description</Menlo>.
               </Text>
             </View>
-            <Text style={styles.howToText}>
-              How to use:{'\n\n'}1. Create a <Menlo>POST</Menlo> request to{' '}
-              <Menlo>https://api.adrianleung.dev/pushie/notify</Menlo> and set
-              the header <Menlo>pushie-api-key</Menlo> to the API key listed
-              above.{'\n\n'}2. In the JSON body, include a <Menlo>title</Menlo>,{' '}
-              <Menlo>shortDescription</Menlo>, and <Menlo>description</Menlo>.
-            </Text>
           </View>
           <View style={styles.footer}>
             <TouchableOpacity onPress={() => logoutUser()}>
               <Text style={styles.logoutButton}>Logout</Text>
             </TouchableOpacity>
+            <Text>{name}</Text>
+            <Text>{version}</Text>
           </View>
         </View>
       </SafeAreaView>
@@ -117,10 +118,13 @@ const styles = StyleSheet.create({
   logoutButton: {
     fontSize: 20,
     color: 'red',
+    paddingVertical: 10,
   },
   footer: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingVertical: 20,
   },
 });
 

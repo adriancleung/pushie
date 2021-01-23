@@ -9,10 +9,12 @@ import {
 } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {NotificationRow} from '@app/components';
+import {NotificationRow, NotificationModal} from '@app/components';
 import {getNotifications} from '@app/services';
 
 const Home = ({navigation}) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [notificationItem, setNotificationItem] = useState({});
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -29,6 +31,10 @@ const Home = ({navigation}) => {
       title={item.title}
       shortDescription={item.shortDescription}
       timestamp={item.timestamp}
+      onPress={() => {
+        setNotificationItem(item);
+        setModalVisible(true);
+      }}
     />
   );
 
@@ -46,6 +52,11 @@ const Home = ({navigation}) => {
   return (
     <>
       <StatusBar barStyle={'dark-content'} />
+      <NotificationModal
+        visible={modalVisible}
+        item={notificationItem}
+        onBackdropPress={(value) => setModalVisible(value)}
+      />
       <SafeAreaView style={styles.container}>
         <View style={styles.splitTop}>
           <View>

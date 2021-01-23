@@ -5,6 +5,8 @@ export const storeData = async (key, value) => {
     if (typeof value === 'object' && value !== null) {
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem(key, jsonValue);
+    } else if (value !== null) {
+      await AsyncStorage.setItem(key, value);
     }
   } catch (err) {
     console.error(err);
@@ -20,6 +22,14 @@ export const getData = async (key) => {
     } catch (err) {
       return value;
     }
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const clearStorage = async () => {
+  try {
+    await AsyncStorage.clear();
   } catch (err) {
     console.error(err);
   }

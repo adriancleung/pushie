@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -12,11 +12,13 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
+import {LoadingModal} from '@app/components';
 import {handleLogin} from '@app/services';
 
 const Login = () => {
   const email = useRef();
   const password = useRef();
+  const [loading, setLoading] = useState(false);
 
   const onTextChange = (ref, value) => {
     ref.current = value;
@@ -30,6 +32,7 @@ const Login = () => {
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={styles.container}>
+            <LoadingModal visible={loading} />
             <View style={styles.thirds}>
               <Text style={styles.title}>pushie</Text>
             </View>
@@ -57,14 +60,18 @@ const Login = () => {
                 secureTextEntry={true}
                 returnKeyType={'go'}
                 onChangeText={(value) => onTextChange(password, value)}
-                onSubmitEditing={() =>
-                  handleLogin(email.current, password.current)
-                }
+                onSubmitEditing={() => {
+                  setLoading(true);
+                  handleLogin(email.current, password.current);
+                }}
               />
             </View>
             <View style={styles.thirds}>
               <TouchableOpacity
-                onPress={() => handleLogin(email.current, password.current)}>
+                onPress={() => {
+                  setLoading(true);
+                  handleLogin(email.current, password.current);
+                }}>
                 <Text style={styles.loginButton}>Login or Signup</Text>
               </TouchableOpacity>
             </View>

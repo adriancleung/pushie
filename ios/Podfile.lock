@@ -303,6 +303,8 @@ PODS:
   - React-jsinspector (0.63.4)
   - react-native-safe-area-context (3.1.9):
     - React-Core
+  - react-native-spinkit (1.4.1):
+    - React
   - React-RCTActionSheet (0.63.4):
     - React-Core/RCTActionSheetHeaders (= 0.63.4)
   - React-RCTAnimation (0.63.4):
@@ -430,6 +432,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-spinkit (from `../node_modules/react-native-spinkit`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
   - React-RCTBlob (from `../node_modules/react-native/Libraries/Blob`)
@@ -512,6 +515,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-spinkit:
+    :path: "../node_modules/react-native-spinkit"
   React-RCTActionSheet:
     :path: "../node_modules/react-native/Libraries/ActionSheetIOS"
   React-RCTAnimation:
@@ -594,7 +599,8 @@ SPEC CHECKSUMS:
   React-jsi: a0418934cf48f25b485631deb27c64dc40fb4c31
   React-jsiexecutor: 93bd528844ad21dc07aab1c67cb10abae6df6949
   React-jsinspector: 58aef7155bc9a9683f5b60b35eccea8722a4f53a
-  react-native-safe-area-context: 86612d2c9a9e94e288319262d10b5f93f0b395f5
+  react-native-safe-area-context: b6e0e284002381d2ff29fa4fff42b4d8282e3c94
+  react-native-spinkit: da294fd828216ad211fe36a5c14c1e09f09e62db
   React-RCTActionSheet: 89a0ca9f4a06c1f93c26067af074ccdce0f40336
   React-RCTAnimation: 1bde3ecc0c104c55df246eda516e0deb03c4e49b
   React-RCTBlob: a97d378b527740cc667e03ebfa183a75231ab0f0
@@ -605,13 +611,13 @@ SPEC CHECKSUMS:
   React-RCTText: 5c51df3f08cb9dedc6e790161195d12bac06101c
   React-RCTVibration: ae4f914cfe8de7d4de95ae1ea6cc8f6315d73d9d
   ReactCommon: 73d79c7039f473b76db6ff7c6b159c478acbbb3b
-  RNCAsyncStorage: bc2f81cc1df90c267ce9ed30bb2dbc93b945a8ee
-  RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
+  RNCAsyncStorage: 05bae7ecfab1cbd5441993f1ca098f7c3b3f8d0e
+  RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNFBApp: a9af8372c9c2b2135ffa78817fd2d8baf3ee632e
   RNFBAuth: 45d680dd8f6648927517c6ba1eb9cbef657296d5
   RNFBMessaging: 643ec4102ee0d780f928718c2632bb1e90487f04
   RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
-  RNLocalize: dcf0fdb332b37b0d24178e876a7ce4dbbc9c838d
+  RNLocalize: 41026b7c14878f1a1b381bc79f668f1fbf841adb
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
   RNScreens: 45c457af3d2ee9e08fc01e70da87e653d46b1198
   RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
@@ -620,4 +626,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 76f923b4c5c89e02c0fbf65a9e9250d58ea35e1a
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.0
