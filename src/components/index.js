@@ -1,6 +1,7 @@
-import NotificationRow from './NotificationRow';
-import Menlo from './Menlo';
+import AlertModal from './AlertModal';
 import LoadingModal from './LoadingModal';
+import Menlo from './Menlo';
 import NotificationModal from './NotificationModal';
+import NotificationRow from './NotificationRow';
 
-export {NotificationRow, Menlo, LoadingModal, NotificationModal};
+export {AlertModal, LoadingModal, Menlo, NotificationModal, NotificationRow};

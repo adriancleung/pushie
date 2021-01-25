@@ -47,7 +47,7 @@ const NotificationModal = ({visible, item, onBackdropPress}) => {
                   easing: Easing.linear(),
                   duration: 200,
                   useNativeDriver: true,
-                }).start(() => onBackdropPress(false));
+                }).start(() => onBackdropPress(!visible));
               } else if (nativeEvent.oldState === State.ACTIVE) {
                 Animated.spring(translateY, {
                   toValue: translateY._value,
@@ -66,11 +66,15 @@ const NotificationModal = ({visible, item, onBackdropPress}) => {
                   <Icon
                     name={'close'}
                     size={30}
-                    onPress={() => onBackdropPress(false)}
+                    onPress={() => onBackdropPress(!visible)}
                   />
                 </View>
                 <View style={styles.body}>
-                  <Text style={styles.description}>{item.description}</Text>
+                  <Text style={styles.description}>
+                    {item.description
+                      ? item.description
+                      : item.shortDescription}
+                  </Text>
                 </View>
                 <View style={styles.footer}>
                   <Text>{getLocalDateTime(item.timestamp)}</Text>

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {Home, Login, Settings} from '@app/views';
+import {Home, Login, Settings, SplashScreen} from '@app/views';
 
 const Stack = createStackNavigator();
 
@@ -25,7 +25,19 @@ const Navigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {user && !initializing ? (
+        {initializing ? (
+          <Stack.Screen
+            name={'Loading'}
+            component={SplashScreen}
+            options={{headerShown: false, animationEnabled: false}}
+          />
+        ) : !user ? (
+          <Stack.Screen
+            name={'Login'}
+            component={Login}
+            options={{headerShown: false, animationTypeForReplace: 'pop'}}
+          />
+        ) : (
           <>
             <Stack.Screen
               name={'Home'}
@@ -38,12 +50,6 @@ const Navigator = () => {
               options={{headerShown: false}}
             />
           </>
-        ) : (
-          <Stack.Screen
-            name={'Login'}
-            component={Login}
-            options={{headerShown: false}}
-          />
         )}
       </Stack.Navigator>
     </NavigationContainer>

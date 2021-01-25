@@ -8,6 +8,9 @@ import {
 import {storeData, clearStorage} from '@app/util';
 
 const handleLogin = async (email, password) => {
+  if (!email || !password) {
+    throw new Error('Missing email or password. Please fill both fields.');
+  }
   try {
     await auth().createUserWithEmailAndPassword(email, password);
     await createUserInDb(email);
@@ -19,9 +22,15 @@ const handleLogin = async (email, password) => {
     if (err.code !== undefined && err.code === 'auth/email-already-in-use') {
       await loginUser(email, password);
     } else if (err.code !== undefined && err.code === 'auth/invalid-email') {
-      console.log('That email address in invalid!');
+      throw new Error(
+        'Invalid email. Please check if email is entered correctly.',
+      );
+    } else if (err.code !== undefined && err.code === 'auth/weak-password') {
+      throw new Error(
+        'Password too weak. Please enter a longer/more complex password.',
+      );
     } else {
-      console.error(err);
+      throw new Error(err);
     }
   }
 };
@@ -35,14 +44,14 @@ const loginUser = async (email, password) => {
     await storeData('@apiKey', apiKey);
   } catch (err) {
     if (err.code !== undefined && err.code === 'auth/wrong-password') {
-      console.log('Invalid password');
+      throw new Error('Invalid email or password. Please try again.');
     } else if (
       err.code !== undefined &&
       err.code === 'auth/too-many-requests'
     ) {
-      console.log('Too many attempts');
+      throw new Error('Too many attempts. Please try again later.');
     } else {
-      console.error(err);
+      throw new Error(err);
     }
   }
 };
