@@ -75,7 +75,7 @@ const Home = ({navigation}) => {
         </View>
         {loading ? (
           <View style={styles.loadingView}>
-            <Spinner type={'CircleFlip'} size={100} color={'#00800FF'} />
+            <Spinner type={'CircleFlip'} size={100} color={'#0080FF'} />
           </View>
         ) : (
           <FlatList
