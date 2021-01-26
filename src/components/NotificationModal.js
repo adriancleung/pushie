@@ -7,6 +7,7 @@ import {
   Animated,
   Easing,
   TouchableWithoutFeedback,
+  Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {PanGestureHandler, State} from 'react-native-gesture-handler';
@@ -14,13 +15,15 @@ import {getLocalDateTime} from '@app/util';
 
 const translateX = new Animated.Value(0);
 const translateY = new Animated.Value(0);
-const scaleX = new Animated.Value(720);
+const scaleX = new Animated.Value(Dimensions.get('window').width * 3);
 const scaleY = new Animated.Value(5);
 
 const NotificationModal = ({visible, item, onBackdropPress}) => {
   return (
     <Modal visible={visible} transparent={true}>
-      <TouchableWithoutFeedback style={styles.container}>
+      <TouchableWithoutFeedback
+        style={styles.container}
+        onPress={() => onBackdropPress(!visible)}>
         <View style={styles.centerView}>
           <PanGestureHandler
             onGestureEvent={Animated.event(
@@ -45,7 +48,7 @@ const NotificationModal = ({visible, item, onBackdropPress}) => {
                       ? translateY._value + 5000
                       : translateY._value - 5000,
                   easing: Easing.linear(),
-                  duration: 200,
+                  duration: 150,
                   useNativeDriver: true,
                 }).start(() => onBackdropPress(!visible));
               } else if (nativeEvent.oldState === State.ACTIVE) {
@@ -60,26 +63,28 @@ const NotificationModal = ({visible, item, onBackdropPress}) => {
               }
             }}>
             <Animated.View style={styles.modalView}>
-              <View style={styles.modalContent}>
-                <View style={styles.header}>
-                  <Text style={styles.title}>{item.title}</Text>
-                  <Icon
-                    name={'close'}
-                    size={30}
-                    onPress={() => onBackdropPress(!visible)}
-                  />
+              <TouchableWithoutFeedback>
+                <View style={styles.modalContent}>
+                  <View style={styles.header}>
+                    <Text style={styles.title}>{item.title}</Text>
+                    <Icon
+                      name={'close'}
+                      size={30}
+                      onPress={() => onBackdropPress(!visible)}
+                    />
+                  </View>
+                  <View style={styles.body}>
+                    <Text style={styles.description}>
+                      {item.description
+                        ? item.description
+                        : item.shortDescription}
+                    </Text>
+                  </View>
+                  <View style={styles.footer}>
+                    <Text>{getLocalDateTime(item.timestamp)}</Text>
+                  </View>
                 </View>
-                <View style={styles.body}>
-                  <Text style={styles.description}>
-                    {item.description
-                      ? item.description
-                      : item.shortDescription}
-                  </Text>
-                </View>
-                <View style={styles.footer}>
-                  <Text>{getLocalDateTime(item.timestamp)}</Text>
-                </View>
-              </View>
+              </TouchableWithoutFeedback>
             </Animated.View>
           </PanGestureHandler>
         </View>

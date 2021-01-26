@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Spinner from 'react-native-spinkit';
 import {NotificationRow, NotificationModal} from '@app/components';
 import {getNotifications} from '@app/services';
 
@@ -67,18 +68,24 @@ const Home = ({navigation}) => {
             <Icon
               name={'settings'}
               size={30}
-              style={styles.logoutButton}
+              style={styles.settingsButton}
               onPress={() => navigation.navigate('Settings')}
             />
           </View>
         </View>
-        <FlatList
-          refreshing={loading}
-          onRefresh={() => loadNotifications()}
-          data={notifications}
-          renderItem={renderNotificationRow}
-          keyExtractor={(notificationItem) => notificationItem.id}
-        />
+        {loading ? (
+          <View style={styles.loadingView}>
+            <Spinner type={'CircleFlip'} size={100} color={'#00800FF'} />
+          </View>
+        ) : (
+          <FlatList
+            refreshing={loading}
+            onRefresh={() => loadNotifications()}
+            data={notifications}
+            renderItem={renderNotificationRow}
+            keyExtractor={(notificationItem) => notificationItem.id}
+          />
+        )}
       </SafeAreaView>
     </>
   );
@@ -106,8 +113,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
   },
-  logoutButton: {
+  settingsButton: {
     paddingHorizontal: 20,
+  },
+  loadingView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
