@@ -66,12 +66,16 @@ const NotificationModal = ({visible, item, onBackdropPress}) => {
               <TouchableWithoutFeedback>
                 <View style={styles.modalContent}>
                   <View style={styles.header}>
-                    <Text style={styles.title}>{item.title}</Text>
-                    <Icon
-                      name={'close'}
-                      size={30}
-                      onPress={() => onBackdropPress(!visible)}
-                    />
+                    <View style={styles.titleView}>
+                      <Text style={styles.title}>{item.title}</Text>
+                    </View>
+                    <View style={styles.closeView}>
+                      <Icon
+                        name={'close'}
+                        size={30}
+                        onPress={() => onBackdropPress(!visible)}
+                      />
+                    </View>
                   </View>
                   <View style={styles.body}>
                     <Text style={styles.description}>
@@ -135,15 +139,23 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   body: {
-    flex: 4,
+    flex: 3,
   },
   footer: {
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
   },
+  titleView: {
+    flex: 9,
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+  },
+  closeView: {
+    flex: 1,
+  },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: '900',
   },
   description: {

@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {Home, Login, Settings, SplashScreen} from '@app/views';
+import Splash from 'react-native-splash-screen';
+import {Home, Login, Settings} from '@app/views';
 
 const Stack = createStackNavigator();
 
@@ -22,16 +23,16 @@ const Navigator = () => {
     return subscriber;
   }, []);
 
+  useEffect(() => {
+    if (!initializing) {
+      Splash.hide();
+    }
+  }, [initializing]);
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {initializing ? (
-          <Stack.Screen
-            name={'Loading'}
-            component={SplashScreen}
-            options={{headerShown: false, animationEnabled: false}}
-          />
-        ) : !user ? (
+        {!user ? (
           <Stack.Screen
             name={'Login'}
             component={Login}
