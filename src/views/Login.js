@@ -12,21 +12,42 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import {LoadingModal} from '@app/components';
+import {LoadingModal, AlertModal} from '@app/components';
 import {handleLogin} from '@app/services';
 
 const Login = () => {
   const email = useRef();
   const password = useRef();
   const [loading, setLoading] = useState(false);
+  const [alertModalVisible, setAlertModalVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
 
   const onTextChange = (ref, value) => {
     ref.current = value;
   };
 
+  const validateAndHandleLogin = () => {
+    if (!email.current || !password.current) {
+      setAlertMessage('Missing email or password. Please fill both fields.');
+      setAlertModalVisible(true);
+    } else {
+      setLoading(true);
+      handleLogin(email.current, password.current).catch((err) => {
+        setLoading(false);
+        setAlertMessage(err.message);
+        setTimeout(() => setAlertModalVisible(true), 500);
+      });
+    }
+  };
+
   return (
     <>
       <StatusBar barStyle={'dark-content'} />
+      <AlertModal
+        visible={alertModalVisible}
+        onBackdropPress={(value) => setAlertModalVisible(value)}>
+        {alertMessage}
+      </AlertModal>
       <SafeAreaView style={styles.container}>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <KeyboardAvoidingView
@@ -61,16 +82,14 @@ const Login = () => {
                 returnKeyType={'go'}
                 onChangeText={(value) => onTextChange(password, value)}
                 onSubmitEditing={() => {
-                  setLoading(true);
-                  handleLogin(email.current, password.current);
+                  validateAndHandleLogin();
                 }}
               />
             </View>
             <View style={styles.thirds}>
               <TouchableOpacity
                 onPress={() => {
-                  setLoading(true);
-                  handleLogin(email.current, password.current);
+                  validateAndHandleLogin();
                 }}>
                 <Text style={styles.loginButton}>Login or Signup</Text>
               </TouchableOpacity>
