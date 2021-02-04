@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 - Delete notifications from list
 
+## [1.0.0] - 2021-02-03
 ## [1.0.0-rc.1] - 2021-01-30
 ### Added
 - Receive real-time push notifications
@@ -14,6 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A detailed card of individual notifications
 - Instructions on how to use
 
-[Unreleased]: https://github.com/adriancleung/pushie/compare/v1.0.0-rc.1...HEAD
-[1.0.0]: https://github.com/adriancleung/pushie/compare/v1.0.0-rc.1...1.0.0
+[Unreleased]: https://github.com/adriancleung/pushie/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/adriancleung/pushie/compare/v1.0.0-rc.1...v1.0.0
 [1.0.0-rc.1]: https://github.com/adriancleung/pushie/releases/tag/v1.0.0-rc.1

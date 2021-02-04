@@ -1,4 +1,4 @@
-[![App Banner](https://github.com/adriancleung/pushie/blob/master/resources/app_banner.png?raw=true)](https://itunes.apple.com/us/app/pushie/id1548868091)
+[![App Banner](https://github.com/adriancleung/pushie/blob/master/resources/app_banner.png?raw=true)](https://apps.apple.com/us/app/pushie/id1548868091)
 
 # pushie
 A simple real-time push notification app for your applications or services
