@@ -1,5 +1,6 @@
 import {
   createUserInDb,
+  deleteNotification,
   getNotifications,
   getUserApiKey,
   saveUserDeviceToken,
@@ -8,6 +9,7 @@ import {handleLogin, logoutUser, getUserIdToken} from './firebase';
 
 export {
   createUserInDb,
+  deleteNotification,
   getNotifications,
   getUserApiKey,
   saveUserDeviceToken,

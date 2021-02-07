@@ -22,6 +22,7 @@ module.exports = {
           '@app/services': './src/services',
           '@app/util': './src/util',
           '@app/views': './src/views',
+          '@app/constants': './src/constants.js',
         },
       },
     ],

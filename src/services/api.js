@@ -13,7 +13,20 @@ const createUserInDb = async (email) => {
     );
     await storeData('apiKey', res.data);
   } catch (err) {
-    console.error(err);
+    throw new Error(err.message);
+  }
+};
+
+const deleteNotification = async (item) => {
+  try {
+    const idToken = await getUserIdToken();
+    const res = await axios.delete(`${API_URL}/pushie/user`, {
+      headers: {Authorization: `Bearer ${idToken}`},
+      data: item,
+    });
+    return res;
+  } catch (err) {
+    throw new Error(err.message);
   }
 };
 
@@ -25,7 +38,7 @@ const getNotifications = async () => {
     });
     return res.data;
   } catch (err) {
-    console.error(err);
+    throw new Error(err.message);
   }
 };
 
@@ -37,7 +50,7 @@ const getUserApiKey = async () => {
     });
     return res.data;
   } catch (err) {
-    console.error(err);
+    throw new Error(err.message);
   }
 };
 
@@ -50,8 +63,14 @@ const saveUserDeviceToken = async (token) => {
       {headers: {Authorization: `Bearer ${idToken}`}},
     );
   } catch (err) {
-    console.error(err);
+    throw new Error(err.message);
   }
 };
 
-export {createUserInDb, getNotifications, getUserApiKey, saveUserDeviceToken};
+export {
+  createUserInDb,
+  deleteNotification,
+  getNotifications,
+  getUserApiKey,
+  saveUserDeviceToken,
+};

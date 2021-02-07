@@ -1,0 +1,5 @@
+const CONTEXT_DELETE = 'Delete';
+const CONTEXT_PREVIEW = 'Preview';
+const CONTEXT_SHARE = 'Share';
+
+export {CONTEXT_DELETE, CONTEXT_PREVIEW, CONTEXT_SHARE};

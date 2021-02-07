@@ -1,6 +1,6 @@
 {
   "name": "pushie",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -23,6 +23,7 @@
     "moment-timezone": "^0.5.32",
     "react": "16.13.1",
     "react-native": "0.63.4",
+    "react-native-context-menu-view": "^1.2.1",
     "react-native-dotenv": "^2.5.0",
     "react-native-gesture-handler": "^1.9.0",
     "react-native-localize": "^2.0.1",

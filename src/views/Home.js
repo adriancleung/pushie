@@ -6,12 +6,15 @@ import {
   FlatList,
   StyleSheet,
   View,
+  Share,
 } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Spinner from 'react-native-spinkit';
+import ContextMenu from 'react-native-context-menu-view';
 import {NotificationRow, NotificationModal} from '@app/components';
-import {getNotifications} from '@app/services';
+import {deleteNotification, getNotifications} from '@app/services';
+import {CONTEXT_DELETE, CONTEXT_PREVIEW, CONTEXT_SHARE} from '@app/constants';
 
 const Home = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -27,22 +30,75 @@ const Home = ({navigation}) => {
     return unsubscribe;
   }, []);
 
+  const removeNotification = async (item) => {
+    deleteNotification(item)
+      .then(() => {
+        setNotifications(notifications.filter((o) => o.id !== item.id));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  const onShare = async (item) => {
+    try {
+      const results = await Share.share(
+        {
+          message: `${item.title}\n${item.description}`,
+        },
+        {
+          subject: item.title,
+          tintColor: '#0080FF',
+        },
+      );
+      console.log(results);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const renderNotificationRow = ({item}) => (
-    <NotificationRow
-      title={item.title}
-      shortDescription={item.shortDescription}
-      timestamp={item.timestamp}
-      onPress={() => {
-        setNotificationItem(item);
-        setModalVisible(true);
-      }}
-    />
+    <ContextMenu
+      actions={[
+        {title: CONTEXT_DELETE, systemIcon: 'trash', destructive: true},
+        {
+          title: CONTEXT_SHARE,
+          systemIcon: 'square.and.arrow.up',
+          destructive: false,
+        },
+      ]}
+      onPress={(event) => {
+        const {index, name} = event.nativeEvent;
+        console.log(index, name);
+        if (name === CONTEXT_DELETE) {
+          removeNotification(item);
+        } else if (name === CONTEXT_PREVIEW) {
+          setNotificationItem(item);
+          setModalVisible(true);
+        } else if (name === CONTEXT_SHARE) {
+          onShare(item);
+        }
+      }}>
+      <NotificationRow
+        title={item.title}
+        shortDescription={item.shortDescription}
+        timestamp={item.timestamp}
+        onPress={() => {
+          setNotificationItem(item);
+          setModalVisible(true);
+        }}
+      />
+    </ContextMenu>
   );
 
   const loadNotifications = async () => {
     setLoading(true);
-    const res = await getNotifications();
-    setNotifications(res);
+    try {
+      const res = await getNotifications();
+      setNotifications(res);
+    } catch (err) {
+      console.error(err);
+    }
     setLoading(false);
   };
 
@@ -83,7 +139,7 @@ const Home = ({navigation}) => {
             onRefresh={() => loadNotifications()}
             data={notifications}
             renderItem={renderNotificationRow}
-            keyExtractor={(notificationItem) => notificationItem.id}
+            keyExtractor={(item) => item.id}
           />
         )}
       </SafeAreaView>

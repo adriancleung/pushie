@@ -57,16 +57,20 @@ const loginUser = async (email, password) => {
 };
 
 const logoutUser = async () => {
-  await saveUserDeviceToken('');
-  await auth().signOut();
-  await clearStorage();
+  try {
+    await saveUserDeviceToken('');
+    await clearStorage();
+    await auth().signOut();
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 const getUserIdToken = async () => {
   try {
     return await auth().currentUser.getIdToken();
   } catch (err) {
-    console.error(err);
+    throw new Error(err.message);
   }
 };
 
