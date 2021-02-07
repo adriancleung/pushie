@@ -59,6 +59,7 @@ const Home = ({navigation}) => {
 
   const renderNotificationRow = ({item}) => (
     <ContextMenu
+      previewBackgroundColor={'white'}
       actions={[
         {title: CONTEXT_DELETE, systemIcon: 'trash', destructive: true},
         {
