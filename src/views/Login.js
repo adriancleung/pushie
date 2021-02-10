@@ -42,18 +42,18 @@ const Login = () => {
 
   return (
     <>
-      <StatusBar barStyle={'dark-content'} />
+      <StatusBar barStyle={'dark-content'} animated={true} />
       <AlertModal
         visible={alertModalVisible}
         onBackdropPress={(value) => setAlertModalVisible(value)}>
         {alertMessage}
       </AlertModal>
+      <LoadingModal visible={loading} />
       <SafeAreaView style={styles.container}>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={styles.container}>
-            <LoadingModal visible={loading} />
             <View style={styles.thirds}>
               <Text style={styles.title}>pushie</Text>
             </View>

@@ -386,6 +386,8 @@ PODS:
     - RNFBApp
   - RNGestureHandler (1.9.0):
     - React-Core
+  - RNKeychain (6.2.0):
+    - React
   - RNLocalize (2.0.1):
     - React-Core
   - RNReanimated (1.13.2):
@@ -455,6 +457,7 @@ DEPENDENCIES:
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNKeychain (from `../node_modules/react-native-keychain`)
   - RNLocalize (from `../node_modules/react-native-localize`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -559,6 +562,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/messaging"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNKeychain:
+    :path: "../node_modules/react-native-keychain"
   RNLocalize:
     :path: "../node_modules/react-native-localize"
   RNReanimated:
@@ -629,6 +634,7 @@ SPEC CHECKSUMS:
   RNFBAuth: 45d680dd8f6648927517c6ba1eb9cbef657296d5
   RNFBMessaging: 643ec4102ee0d780f928718c2632bb1e90487f04
   RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
+  RNKeychain: b8e0711b959a19c5b057d1e970d3c83d159b6da5
   RNLocalize: 41026b7c14878f1a1b381bc79f668f1fbf841adb
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
   RNScreens: 45c457af3d2ee9e08fc01e70da87e653d46b1198

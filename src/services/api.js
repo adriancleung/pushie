@@ -11,7 +11,6 @@ const createUserInDb = async (email) => {
       {email},
       {headers: {Authorization: `Bearer ${idToken}`}},
     );
-    await storeData('apiKey', res.data);
   } catch (err) {
     throw new Error(err.message);
   }

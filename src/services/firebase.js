@@ -5,7 +5,7 @@ import {
   saveUserDeviceToken,
   getUserApiKey,
 } from '@app/services';
-import {storeData, clearStorage} from '@app/util';
+import {storeInKeychain, removeFromKeychain} from '@app/util';
 
 const handleLogin = async (email, password) => {
   if (!email || !password) {
@@ -17,7 +17,7 @@ const handleLogin = async (email, password) => {
     const token = await messaging().getToken();
     await saveUserDeviceToken(token);
     const apiKey = await getUserApiKey();
-    await storeData('@apiKey', apiKey);
+    await storeInKeychain('api', apiKey);
   } catch (err) {
     if (err.code !== undefined && err.code === 'auth/email-already-in-use') {
       await loginUser(email, password);
@@ -41,7 +41,7 @@ const loginUser = async (email, password) => {
     const token = await messaging().getToken();
     await saveUserDeviceToken(token);
     const apiKey = await getUserApiKey();
-    await storeData('@apiKey', apiKey);
+    await storeInKeychain('api', apiKey);
   } catch (err) {
     if (err.code !== undefined && err.code === 'auth/wrong-password') {
       throw new Error('Invalid email or password. Please try again.');
@@ -58,8 +58,7 @@ const loginUser = async (email, password) => {
 
 const logoutUser = async () => {
   try {
-    await saveUserDeviceToken('');
-    await clearStorage();
+    await removeFromKeychain();
     await auth().signOut();
   } catch (err) {
     console.error(err);

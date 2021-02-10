@@ -42,16 +42,17 @@ const Home = ({navigation}) => {
 
   const onShare = async (item) => {
     try {
-      const results = await Share.share(
+      await Share.share(
         {
-          message: `${item.title}\n${item.description}`,
+          message: `${item.title}\n${
+            item.description ? item.description : item.shortDescription
+          }`,
         },
         {
           subject: item.title,
           tintColor: '#0080FF',
         },
       );
-      console.log(results);
     } catch (err) {
       console.error(err);
     }
@@ -61,16 +62,15 @@ const Home = ({navigation}) => {
     <ContextMenu
       previewBackgroundColor={'white'}
       actions={[
-        {title: CONTEXT_DELETE, systemIcon: 'trash', destructive: true},
         {
           title: CONTEXT_SHARE,
           systemIcon: 'square.and.arrow.up',
           destructive: false,
         },
+        {title: CONTEXT_DELETE, systemIcon: 'trash', destructive: true},
       ]}
       onPress={(event) => {
-        const {index, name} = event.nativeEvent;
-        console.log(index, name);
+        const {name} = event.nativeEvent;
         if (name === CONTEXT_DELETE) {
           removeNotification(item);
         } else if (name === CONTEXT_PREVIEW) {
@@ -109,7 +109,7 @@ const Home = ({navigation}) => {
 
   return (
     <>
-      <StatusBar barStyle={'dark-content'} />
+      <StatusBar barStyle={'dark-content'} animated={true} />
       <NotificationModal
         visible={modalVisible}
         item={notificationItem}
@@ -126,7 +126,7 @@ const Home = ({navigation}) => {
               name={'settings'}
               size={30}
               style={styles.settingsButton}
-              onPress={() => navigation.navigate('Settings')}
+              onPress={() => navigation.navigate('SettingsStack')}
             />
           </View>
         </View>
