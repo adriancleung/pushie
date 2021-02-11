@@ -1,12 +1,11 @@
 import axios from 'axios';
 import {API_URL} from '@env';
 import {getUserIdToken} from '@app/services';
-import {storeData} from '@app/util';
 
 const createUserInDb = async (email) => {
   try {
     const idToken = await getUserIdToken();
-    const res = await axios.post(
+    await axios.post(
       `${API_URL}/pushie/user`,
       {email},
       {headers: {Authorization: `Bearer ${idToken}`}},

@@ -3,7 +3,7 @@ import {
   StatusBar,
   View,
   Text,
-  Button,
+  TouchableOpacity,
   StyleSheet,
   ScrollView,
 } from 'react-native';
@@ -30,10 +30,12 @@ const Changelog = ({navigation}) => {
       <StatusBar barStyle={'light-content'} animated={true} />
       <View style={styles.container}>
         <View style={styles.header}>
-          <Button title={'Done'} onPress={() => navigation.goBack()} />
+          <Text style={styles.headerTitle}>Release Notes</Text>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Text style={styles.closeButton}>Done</Text>
+          </TouchableOpacity>
         </View>
         <ScrollView>
-          <Text style={styles.headerTitle}>Release Notes</Text>
           <Markdown style={mdStyles}>{data}</Markdown>
         </ScrollView>
       </View>
@@ -70,12 +72,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    backgroundColor: '#202020',
+    backgroundColor: 'rgb(28, 28, 30)',
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  closeButton: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: 'rgb(0, 132, 255)',
   },
   headerTitle: {
     fontSize: 30,

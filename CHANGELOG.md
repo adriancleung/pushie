@@ -8,8 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.0] - TBD
 ### Added
-- Delete notifications from list
-- Share notifications
+- Require authentication to view API key
+- Delete notifications from list by long pressing notification
+- Share notifications by long pressing notification
+- View open source libraries
+- View release notes (me!)
+
+### Changed
+- Improve settings screen structure
 
 ## [1.0.0] - 2021-02-03
 ## [1.0.0-rc.1] - 2021-01-30

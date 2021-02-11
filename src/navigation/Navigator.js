@@ -6,19 +6,28 @@ import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Splash from 'react-native-splash-screen';
-import {Changelog, Home, License, Login, Settings} from '@app/views';
+import {
+  About,
+  Api,
+  Changelog,
+  Help,
+  Home,
+  License,
+  Login,
+  Settings,
+} from '@app/views';
 
 enableScreens();
 const NativeStack = createNativeStackNavigator();
 const Stack = createStackNavigator();
 
-const SettingsStack = () => {
+const AboutStack = () => {
   return (
-    <SafeAreaView style={styles.settingsStackContainer}>
+    <SafeAreaView style={styles.safeViewContainer}>
       <NativeStack.Navigator
-        initialRouteName={'Settings'}
+        initialRouteName={'About'}
         screenOptions={{headerShown: false}}>
-        <NativeStack.Screen name={'Settings'} component={Settings} />
+        <NativeStack.Screen name={'About'} component={About} />
         <NativeStack.Screen
           name={'License'}
           component={License}
@@ -30,6 +39,21 @@ const SettingsStack = () => {
           options={{stackPresentation: 'formSheet'}}
         />
       </NativeStack.Navigator>
+    </SafeAreaView>
+  );
+};
+
+const SettingsStack = () => {
+  return (
+    <SafeAreaView style={styles.safeViewContainer}>
+      <Stack.Navigator
+        initialRouteName={'Settings'}
+        screenOptions={{headerShown: false}}>
+        <Stack.Screen name={'Settings'} component={Settings} />
+        <Stack.Screen name={'AboutStack'} component={AboutStack} />
+        <Stack.Screen name={'API Key'} component={Api} />
+        <Stack.Screen name={'Help'} component={Help} />
+      </Stack.Navigator>
     </SafeAreaView>
   );
 };
@@ -77,7 +101,7 @@ const Navigator = () => {
 };
 
 const styles = StyleSheet.create({
-  settingsStackContainer: {
+  safeViewContainer: {
     flex: 1,
     backgroundColor: 'white',
   },

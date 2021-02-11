@@ -5,7 +5,7 @@ import {
   Text,
   StyleSheet,
   FlatList,
-  Button,
+  TouchableOpacity,
 } from 'react-native';
 import {Menlo} from '@app/components';
 import {LICENSE_TEXT, LICENSES} from '@app/constants';
@@ -40,7 +40,9 @@ const License = ({navigation}) => {
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Licenses</Text>
-          <Button title={'Done'} onPress={() => navigation.goBack()} />
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Text style={styles.closeButton}>Done</Text>
+          </TouchableOpacity>
         </View>
 
         <FlatList
@@ -77,6 +79,11 @@ const styles = StyleSheet.create({
   },
   licenseText: {
     fontSize: 12,
+  },
+  closeButton: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: 'rgb(0, 122, 255)',
   },
   licenseView: {
     flexDirection: 'row',
