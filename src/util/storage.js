@@ -9,7 +9,7 @@ export const storeData = async (key, value) => {
       await AsyncStorage.setItem(key, value);
     }
   } catch (err) {
-    console.error(err);
+    throw new Error(err.message);
   }
 };
 
@@ -23,7 +23,7 @@ export const getData = async (key) => {
       return value;
     }
   } catch (err) {
-    console.error(err);
+    throw new Error(err.message);
   }
 };
 
@@ -31,6 +31,6 @@ export const clearStorage = async () => {
   try {
     await AsyncStorage.clear();
   } catch (err) {
-    console.error(err);
+    throw new Error(err.message);
   }
 };

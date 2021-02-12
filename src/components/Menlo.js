@@ -1,14 +1,12 @@
 import React from 'react';
 import {Text, StyleSheet} from 'react-native';
 
-const Menlo = (props) => {
-  return <Text style={styles.menloText}>{props.children}</Text>;
+const Menlo = ({style, children}) => {
+  return <Text style={[styles.menloText, style]}>{children}</Text>;
 };
 
 const styles = StyleSheet.create({
   menloText: {
-    fontSize: 18,
-    fontWeight: 'bold',
     fontFamily: 'Menlo',
   },
 });

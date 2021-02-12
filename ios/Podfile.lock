@@ -301,6 +301,8 @@ PODS:
     - React-cxxreact (= 0.63.4)
     - React-jsi (= 0.63.4)
   - React-jsinspector (0.63.4)
+  - react-native-context-menu-view (1.2.1):
+    - React
   - react-native-safe-area-context (3.1.9):
     - React-Core
   - react-native-spinkit (1.4.1):
@@ -384,6 +386,10 @@ PODS:
     - RNFBApp
   - RNGestureHandler (1.9.0):
     - React-Core
+  - RNInAppBrowser (3.5.1):
+    - React-Core
+  - RNKeychain (6.2.0):
+    - React
   - RNLocalize (2.0.1):
     - React-Core
   - RNReanimated (1.13.2):
@@ -433,6 +439,7 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - react-native-context-menu-view (from `../node_modules/react-native-context-menu-view`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-spinkit (from `../node_modules/react-native-spinkit`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
@@ -452,6 +459,8 @@ DEPENDENCIES:
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNInAppBrowser (from `../node_modules/react-native-inappbrowser-reborn`)
+  - RNKeychain (from `../node_modules/react-native-keychain`)
   - RNLocalize (from `../node_modules/react-native-localize`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -516,6 +525,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-context-menu-view:
+    :path: "../node_modules/react-native-context-menu-view"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-spinkit:
@@ -554,6 +565,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/messaging"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNInAppBrowser:
+    :path: "../node_modules/react-native-inappbrowser-reborn"
+  RNKeychain:
+    :path: "../node_modules/react-native-keychain"
   RNLocalize:
     :path: "../node_modules/react-native-localize"
   RNReanimated:
@@ -604,6 +619,7 @@ SPEC CHECKSUMS:
   React-jsi: a0418934cf48f25b485631deb27c64dc40fb4c31
   React-jsiexecutor: 93bd528844ad21dc07aab1c67cb10abae6df6949
   React-jsinspector: 58aef7155bc9a9683f5b60b35eccea8722a4f53a
+  react-native-context-menu-view: 314d901eb8d8b3d32c2bcc5c5288045c539fe345
   react-native-safe-area-context: b6e0e284002381d2ff29fa4fff42b4d8282e3c94
   react-native-spinkit: da294fd828216ad211fe36a5c14c1e09f09e62db
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
@@ -623,6 +639,8 @@ SPEC CHECKSUMS:
   RNFBAuth: 45d680dd8f6648927517c6ba1eb9cbef657296d5
   RNFBMessaging: 643ec4102ee0d780f928718c2632bb1e90487f04
   RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
+  RNInAppBrowser: 48b95ba7a4eaff5cc223bca338d3e319561dbd1b
+  RNKeychain: b8e0711b959a19c5b057d1e970d3c83d159b6da5
   RNLocalize: 41026b7c14878f1a1b381bc79f668f1fbf841adb
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
   RNScreens: 45c457af3d2ee9e08fc01e70da87e653d46b1198
