@@ -5,6 +5,8 @@ const CONTEXT_SHARE = 'Share';
 const CHANGELOG_URL =
   'https://raw.githubusercontent.com/adriancleung/pushie/master/CHANGELOG.md';
 
+const PRIVACY_POLICY_URL = 'https://adrianleung.dev/pushie/privacy';
+
 const LICENSE_TEXT = [
   {
     id: 'MIT License',
@@ -302,6 +304,11 @@ const LICENSES = [
   },
   {
     type: 'MIT License',
+    name: 'react-native-inappbrowser-reborn',
+    copyright: 'Copyright (c) 2019 Proyecto 26',
+  },
+  {
+    type: 'MIT License',
     name: 'react-native-keychain',
     copyright: 'Copyright (c) 2015 Joel Arvidsson',
   },
@@ -354,4 +361,5 @@ export {
   CHANGELOG_URL,
   LICENSE_TEXT,
   LICENSES,
+  PRIVACY_POLICY_URL,
 };

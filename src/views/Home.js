@@ -13,7 +13,12 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Spinner from 'react-native-spinkit';
 import ContextMenu from 'react-native-context-menu-view';
 import {NotificationRow, NotificationModal} from '@app/components';
-import {deleteNotification, getNotifications} from '@app/services';
+import {
+  deleteNotification,
+  getNotifications,
+  getUserApiKey,
+} from '@app/services';
+import {storeInKeychain} from '@app/util';
 import {CONTEXT_DELETE, CONTEXT_PREVIEW, CONTEXT_SHARE} from '@app/constants';
 
 const Home = ({navigation}) => {
@@ -26,6 +31,14 @@ const Home = ({navigation}) => {
     const unsubscribe = messaging().onMessage(async () => {
       loadNotifications();
     });
+
+    getUserApiKey()
+      .then(async (value) => {
+        await storeInKeychain('api', value);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
 
     return unsubscribe;
   }, []);

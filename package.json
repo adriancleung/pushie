@@ -26,6 +26,7 @@
     "react-native-context-menu-view": "^1.2.1",
     "react-native-dotenv": "^2.5.0",
     "react-native-gesture-handler": "^1.9.0",
+    "react-native-inappbrowser-reborn": "^3.5.1",
     "react-native-keychain": "^6.2.0",
     "react-native-localize": "^2.0.1",
     "react-native-markdown-display": "^7.0.0-alpha.2",

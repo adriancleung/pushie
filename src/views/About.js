@@ -1,6 +1,8 @@
 import React from 'react';
-import {View, Text, StyleSheet, StatusBar} from 'react-native';
+import {View, Text, StyleSheet, StatusBar, Linking} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {InAppBrowser} from 'react-native-inappbrowser-reborn';
+import {PRIVACY_POLICY_URL} from '@app/constants';
 
 const About = ({navigation}) => {
   return (
@@ -21,10 +23,33 @@ const About = ({navigation}) => {
           <View style={styles.headerThirds} />
         </View>
         <View style={styles.body}>
-          <Text onPress={() => navigation.navigate('Changelog')}>
+          <Text
+            style={styles.itemText}
+            onPress={() => navigation.navigate('Changelog')}>
             Release Notes
           </Text>
-          <Text onPress={() => navigation.navigate('License')}>
+          <Text
+            style={styles.itemText}
+            onPress={async () => {
+              if (await InAppBrowser.isAvailable()) {
+                StatusBar.setBarStyle('light-content');
+                await InAppBrowser.open(PRIVACY_POLICY_URL, {
+                  dismissButtonStyle: 'done',
+                  animated: true,
+                  modalEnabled: true,
+                  modalPresentationStyle: 'formSheet',
+                  enableBarCollapsing: true,
+                });
+                StatusBar.setBarStyle('dark-content');
+              } else {
+                Linking.openURL('https://adrianleung.dev/pushie/privacy');
+              }
+            }}>
+            Privacy Policy
+          </Text>
+          <Text
+            style={styles.itemText}
+            onPress={() => navigation.navigate('License')}>
             Open Source Libraries
           </Text>
         </View>
@@ -53,6 +78,9 @@ const styles = StyleSheet.create({
   },
   body: {
     paddingVertical: 25,
+  },
+  itemText: {
+    paddingVertical: 10,
   },
 });
 

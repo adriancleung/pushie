@@ -8,22 +8,27 @@ import {
   ScrollView,
 } from 'react-native';
 import Markdown from 'react-native-markdown-display';
+import Spinner from 'react-native-spinkit';
 import axios from 'axios';
 import {CHANGELOG_URL} from '@app/constants';
 
 const Changelog = ({navigation}) => {
-  const [data, setData] = useState('Cannot retrieve latest release notes :(');
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState('');
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get(CHANGELOG_URL)
       .then((res) => {
         setData(res.data);
+        setLoading(false);
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
+        setData('##Cannot retrieve latest release notes :(');
+        setLoading(false);
       });
-  });
+  }, []);
 
   return (
     <>
@@ -35,9 +40,15 @@ const Changelog = ({navigation}) => {
             <Text style={styles.closeButton}>Done</Text>
           </TouchableOpacity>
         </View>
-        <ScrollView>
-          <Markdown style={mdStyles}>{data}</Markdown>
-        </ScrollView>
+        {loading ? (
+          <View style={styles.spinner}>
+            <Spinner type={'CircleFlip'} size={100} color={'#0080FF'} />
+          </View>
+        ) : (
+          <ScrollView>
+            <Markdown style={mdStyles}>{data}</Markdown>
+          </ScrollView>
+        )}
       </View>
     </>
   );
@@ -71,10 +82,11 @@ const mdStyles = StyleSheet.create({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
+    paddingHorizontal: 10,
     backgroundColor: 'rgb(28, 28, 30)',
   },
   header: {
+    marginVertical: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -88,6 +100,11 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: '900',
     color: 'white',
+  },
+  spinner: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

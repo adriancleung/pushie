@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+- Add password reset
+- Ability to regenerate a new API key
 
 ## [1.1.0] - TBD
 ### Added
@@ -13,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Share notifications by long pressing notification
 - View open source libraries
 - View release notes (me!)
+- View privacy policy
 
 ### Changed
 - Improve settings screen structure
