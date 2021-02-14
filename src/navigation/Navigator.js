@@ -62,8 +62,8 @@ const Navigator = () => {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
 
-  const onAuthStateChanged = (user) => {
-    setUser(user);
+  const onAuthStateChanged = (authUser) => {
+    setUser(authUser);
     if (initializing) {
       setInitializing(false);
     }
@@ -72,6 +72,7 @@ const Navigator = () => {
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
