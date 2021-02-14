@@ -243,6 +243,11 @@ const LICENSES = [
   },
   {
     type: 'MIT License',
+    name: '@react-native-clipboard/clipboard',
+    copyright: 'Copyright (c) 2015-present, Facebook, Inc.',
+  },
+  {
+    type: 'MIT License',
     name: '@react-native-community/masked-view',
     copyright: 'Copyright (c) Facebook, Inc. and its affiliates',
   },
@@ -346,6 +351,11 @@ const LICENSES = [
     type: 'MIT License',
     name: 'react-native-splash-screen',
     copyright: 'Copyright (c) 2016 Jia PengHui',
+  },
+  {
+    type: 'MIT License',
+    name: 'react-native-simple-toast',
+    copyright: 'Copyright (c) Vojtech Novak',
   },
   {
     type: 'MIT License',

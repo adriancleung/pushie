@@ -3,6 +3,7 @@ import {
   deleteNotification,
   getNotifications,
   getUserApiKey,
+  refreshApiKey,
   saveUserDeviceToken,
 } from './api';
 import {handleLogin, logoutUser, getUserIdToken} from './firebase';
@@ -12,6 +13,7 @@ export {
   deleteNotification,
   getNotifications,
   getUserApiKey,
+  refreshApiKey,
   saveUserDeviceToken,
   handleLogin,
   logoutUser,

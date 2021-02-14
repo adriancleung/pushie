@@ -52,6 +52,18 @@ const getUserApiKey = async () => {
   }
 };
 
+const refreshApiKey = async () => {
+  try {
+    const idToken = await getUserIdToken();
+    const res = await axios.post(`${API_URL}/pushie/user/api`, null, {
+      headers: {Authorization: `Bearer ${idToken}`},
+    });
+    return res.data;
+  } catch (err) {
+    throw new Error(err.message);
+  }
+};
+
 const saveUserDeviceToken = async (token) => {
   try {
     const idToken = await getUserIdToken();
@@ -70,5 +82,6 @@ export {
   deleteNotification,
   getNotifications,
   getUserApiKey,
+  refreshApiKey,
   saveUserDeviceToken,
 };
