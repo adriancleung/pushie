@@ -20,15 +20,23 @@ const NotificationRow = ({title, shortDescription, timestamp, onPress}) => (
 
 const styles = StyleSheet.create({
   notificationRow: {
-    paddingTop: 15,
+    backgroundColor: 'white',
+    paddingTop: 5,
     paddingBottom: 5,
-    paddingHorizontal: 20,
-    borderBottomWidth: 0.3,
-    borderBottomColor: 'grey',
+    paddingHorizontal: 7,
+    borderRadius: 10,
+    shadowRadius: 3,
+    shadowColor: 'grey',
+    shadowOffset: {height: 2, width: 0},
+    shadowOpacity: 0.5,
+    elevation: 5,
   },
   notificationTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
+  },
+  notificationShortDescription: {
+    paddingBottom: 10,
   },
   notificationFooter: {
     flexDirection: 'row',

@@ -149,11 +149,15 @@ const Home = ({navigation}) => {
           </View>
         ) : (
           <FlatList
+            contentContainerStyle={styles.flatListView}
             refreshing={loading}
             onRefresh={() => loadNotifications()}
             data={notifications}
             renderItem={renderNotificationRow}
             keyExtractor={(item) => item.id}
+            ItemSeparatorComponent={() => {
+              return <View style={styles.separator} />;
+            }}
           />
         )}
       </SafeAreaView>
@@ -190,6 +194,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  flatListView: {
+    paddingTop: 10,
+    paddingHorizontal: 20,
+  },
+  separator: {
+    paddingVertical: 10,
   },
 });
 

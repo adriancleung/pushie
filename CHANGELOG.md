@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 - Add password reset
 - Ability to regenerate a new API key
+- Add copy API key to clipboard button
+- Update UI
 
 ## [1.1.0] - 2021-02-13
 ### Added

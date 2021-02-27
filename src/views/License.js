@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {Menlo} from '@app/components';
-import {LICENSE_TEXT, LICENSES} from '@app/constants';
+import {LICENSE_TEXT, LICENSES} from '@app/licenses';
 
 const renderLicenseRow = ({item}) => {
   return (

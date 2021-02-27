@@ -37,6 +37,7 @@ const Api = ({navigation}) => {
         })
         .catch(() => {
           apiVisible.current = false;
+          setApiKey(APIKEY_MASK);
         });
     } else {
       apiVisible.current = false;
@@ -50,14 +51,16 @@ const Api = ({navigation}) => {
         .then((value) => {
           if (value) {
             Clipboard.setString(value.password);
+            Vibration.vibrate(500);
+            Toast.show('Copied!', Toast.SHORT);
           }
         })
         .catch((err) => console.error(err));
     } else {
       Clipboard.setString(apiKey);
+      Vibration.vibrate(500);
+      Toast.show('Copied!', Toast.SHORT);
     }
-    Vibration.vibrate(500);
-    Toast.show('Copied!', Toast.SHORT);
   };
 
   const spinner = Animated.timing(spinAnim, {
@@ -72,6 +75,7 @@ const Api = ({navigation}) => {
       if (apiVisible.current) {
         setApiKey(result);
       }
+      spinner.reset();
       return;
     }
     spinner.start(() => loopAnimation());
