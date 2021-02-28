@@ -11,7 +11,6 @@ import {
 import messaging from '@react-native-firebase/messaging';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Spinner from 'react-native-spinkit';
-import ContextMenu from 'react-native-context-menu-view';
 import {NotificationRow, NotificationModal} from '@app/components';
 import {
   deleteNotification,
@@ -19,7 +18,6 @@ import {
   getUserApiKey,
 } from '@app/services';
 import {storeInKeychain} from '@app/util';
-import {CONTEXT_DELETE, CONTEXT_PREVIEW, CONTEXT_SHARE} from '@app/constants';
 
 const Home = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -72,37 +70,17 @@ const Home = ({navigation}) => {
   };
 
   const renderNotificationRow = ({item}) => (
-    <ContextMenu
-      previewBackgroundColor={'white'}
-      actions={[
-        {
-          title: CONTEXT_SHARE,
-          systemIcon: 'square.and.arrow.up',
-          destructive: false,
-        },
-        {title: CONTEXT_DELETE, systemIcon: 'trash', destructive: true},
-      ]}
-      onPress={(event) => {
-        const {name} = event.nativeEvent;
-        if (name === CONTEXT_DELETE) {
-          removeNotification(item);
-        } else if (name === CONTEXT_PREVIEW) {
-          setNotificationItem(item);
-          setModalVisible(true);
-        } else if (name === CONTEXT_SHARE) {
-          onShare(item);
-        }
-      }}>
-      <NotificationRow
-        title={item.title}
-        shortDescription={item.shortDescription}
-        timestamp={item.timestamp}
-        onPress={() => {
-          setNotificationItem(item);
-          setModalVisible(true);
-        }}
-      />
-    </ContextMenu>
+    <NotificationRow
+      item={item}
+      onPress={() => {
+        setNotificationItem(item);
+        setModalVisible(true);
+      }}
+      removeNotification={() => removeNotification(item)}
+      setNotificationItem={() => setNotificationItem(item)}
+      setModalVisible={() => setModalVisible(true)}
+      onShare={() => onShare(item)}
+    />
   );
 
   const loadNotifications = async () => {
