@@ -186,7 +186,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   flatListView: {
-    paddingVertical: 10,
+    paddingTop: 10,
+    paddingBottom: 20,
     paddingHorizontal: 20,
   },
   separator: {

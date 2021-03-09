@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableNativeFeedback} from 'react-native';
 import ContextMenu from 'react-native-context-menu-view';
 import {getLocalDateTime} from '@app/util';
 import {CONTEXT_SHARE, CONTEXT_DELETE, CONTEXT_PREVIEW} from '@app/constants';
@@ -12,7 +12,7 @@ const NotificationRow = ({
   setModalVisible,
   onShare,
 }) => (
-  <TouchableOpacity onPress={onPress} onLongPress={onPress}>
+  <TouchableNativeFeedback onPress={onPress} onLongPress={() => null}>
     <View style={styles.notificationRow}>
       <ContextMenu
         previewBackgroundColor={'white'}
@@ -48,7 +48,7 @@ const NotificationRow = ({
         </View>
       </ContextMenu>
     </View>
-  </TouchableOpacity>
+  </TouchableNativeFeedback>
 );
 
 const styles = StyleSheet.create({
