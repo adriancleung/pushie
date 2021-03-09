@@ -14,7 +14,11 @@ import {logoutUser} from '@app/services';
 const Settings = ({navigation}) => {
   return (
     <>
-      <StatusBar barStyle={'dark-content'} animated={true} />
+      <StatusBar
+        barStyle={'dark-content'}
+        animated={true}
+        backgroundColor={'white'}
+      />
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <View style={styles.headerThirds}>
@@ -61,7 +65,6 @@ const Settings = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
     backgroundColor: 'white',
   },
   header: {

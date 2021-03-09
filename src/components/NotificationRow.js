@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     shadowColor: 'grey',
     shadowOffset: {height: 2, width: 0},
     shadowOpacity: 0.5,
-    elevation: 5,
+    elevation: 8,
   },
   context: {
     paddingTop: 5,

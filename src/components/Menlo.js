@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, StyleSheet} from 'react-native';
+import {Text, StyleSheet, Platform} from 'react-native';
 
 const Menlo = ({style, children}) => {
   return <Text style={[styles.menloText, style]}>{children}</Text>;
@@ -7,7 +7,14 @@ const Menlo = ({style, children}) => {
 
 const styles = StyleSheet.create({
   menloText: {
-    fontFamily: 'Menlo',
+    ...Platform.select({
+      ios: {
+        fontFamily: 'Menlo',
+      },
+      android: {
+        fontFamily: 'monospace',
+      },
+    }),
   },
 });
 

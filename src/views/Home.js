@@ -7,6 +7,7 @@ import {
   StyleSheet,
   View,
   Share,
+  Platform,
 } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -100,7 +101,11 @@ const Home = ({navigation}) => {
 
   return (
     <>
-      <StatusBar barStyle={'dark-content'} animated={true} />
+      <StatusBar
+        barStyle={'dark-content'}
+        animated={true}
+        backgroundColor={'white'}
+      />
       <NotificationModal
         visible={modalVisible}
         item={notificationItem}
@@ -146,7 +151,6 @@ const Home = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
     backgroundColor: 'white',
   },
   splitTop: {
@@ -157,7 +161,15 @@ const styles = StyleSheet.create({
   title: {
     paddingHorizontal: 20,
     fontSize: 50,
-    fontWeight: '900',
+    ...Platform.select({
+      ios: {
+        fontWeight: '900',
+      },
+      android: {
+        fontWeight: '900',
+        fontFamily: 'sans-serif-black',
+      },
+    }),
     color: '#0080ff',
   },
   subtitle: {
@@ -174,7 +186,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   flatListView: {
-    paddingTop: 10,
+    paddingVertical: 10,
     paddingHorizontal: 20,
   },
   separator: {
