@@ -24,10 +24,13 @@ DerivedData
 # Android/IntelliJ
 #
 build/
+release/
 .idea
 .gradle
 local.properties
+release.properties
 *.iml
+*.pepk
 
 # node.js
 #
@@ -61,3 +64,4 @@ buck-out/
 # Project
 *.env
 GoogleService-Info.plist
+google-services.json

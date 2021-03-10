@@ -7,11 +7,11 @@ import {
   StyleSheet,
   View,
   Share,
+  Platform,
 } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Spinner from 'react-native-spinkit';
-import ContextMenu from 'react-native-context-menu-view';
 import {NotificationRow, NotificationModal} from '@app/components';
 import {
   deleteNotification,
@@ -19,7 +19,6 @@ import {
   getUserApiKey,
 } from '@app/services';
 import {storeInKeychain} from '@app/util';
-import {CONTEXT_DELETE, CONTEXT_PREVIEW, CONTEXT_SHARE} from '@app/constants';
 
 const Home = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -72,37 +71,17 @@ const Home = ({navigation}) => {
   };
 
   const renderNotificationRow = ({item}) => (
-    <ContextMenu
-      previewBackgroundColor={'white'}
-      actions={[
-        {
-          title: CONTEXT_SHARE,
-          systemIcon: 'square.and.arrow.up',
-          destructive: false,
-        },
-        {title: CONTEXT_DELETE, systemIcon: 'trash', destructive: true},
-      ]}
-      onPress={(event) => {
-        const {name} = event.nativeEvent;
-        if (name === CONTEXT_DELETE) {
-          removeNotification(item);
-        } else if (name === CONTEXT_PREVIEW) {
-          setNotificationItem(item);
-          setModalVisible(true);
-        } else if (name === CONTEXT_SHARE) {
-          onShare(item);
-        }
-      }}>
-      <NotificationRow
-        title={item.title}
-        shortDescription={item.shortDescription}
-        timestamp={item.timestamp}
-        onPress={() => {
-          setNotificationItem(item);
-          setModalVisible(true);
-        }}
-      />
-    </ContextMenu>
+    <NotificationRow
+      item={item}
+      onPress={() => {
+        setNotificationItem(item);
+        setModalVisible(true);
+      }}
+      removeNotification={() => removeNotification(item)}
+      setNotificationItem={() => setNotificationItem(item)}
+      setModalVisible={() => setModalVisible(true)}
+      onShare={() => onShare(item)}
+    />
   );
 
   const loadNotifications = async () => {
@@ -122,7 +101,11 @@ const Home = ({navigation}) => {
 
   return (
     <>
-      <StatusBar barStyle={'dark-content'} animated={true} />
+      <StatusBar
+        barStyle={'dark-content'}
+        animated={true}
+        backgroundColor={'white'}
+      />
       <NotificationModal
         visible={modalVisible}
         item={notificationItem}
@@ -149,11 +132,15 @@ const Home = ({navigation}) => {
           </View>
         ) : (
           <FlatList
+            contentContainerStyle={styles.flatListView}
             refreshing={loading}
             onRefresh={() => loadNotifications()}
             data={notifications}
             renderItem={renderNotificationRow}
             keyExtractor={(item) => item.id}
+            ItemSeparatorComponent={() => {
+              return <View style={styles.separator} />;
+            }}
           />
         )}
       </SafeAreaView>
@@ -164,7 +151,6 @@ const Home = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
     backgroundColor: 'white',
   },
   splitTop: {
@@ -175,7 +161,15 @@ const styles = StyleSheet.create({
   title: {
     paddingHorizontal: 20,
     fontSize: 50,
-    fontWeight: '900',
+    ...Platform.select({
+      ios: {
+        fontWeight: '900',
+      },
+      android: {
+        fontWeight: '900',
+        fontFamily: 'sans-serif-black',
+      },
+    }),
     color: '#0080ff',
   },
   subtitle: {
@@ -190,6 +184,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  flatListView: {
+    paddingTop: 10,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
+  },
+  separator: {
+    paddingVertical: 10,
   },
 });
 

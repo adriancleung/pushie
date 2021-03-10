@@ -23,6 +23,7 @@ module.exports = {
           '@app/util': './src/util',
           '@app/views': './src/views',
           '@app/constants': './src/constants.js',
+          '@app/licenses': './src/licenses.js',
         },
       },
     ],

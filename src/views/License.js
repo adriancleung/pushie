@@ -6,9 +6,10 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import {Menlo} from '@app/components';
-import {LICENSE_TEXT, LICENSES} from '@app/constants';
+import {LICENSE_TEXT, LICENSES} from '@app/licenses';
 
 const renderLicenseRow = ({item}) => {
   return (
@@ -36,7 +37,11 @@ const renderLicenseRow = ({item}) => {
 const License = ({navigation}) => {
   return (
     <>
-      <StatusBar barStyle={'light-content'} animated={true} />
+      <StatusBar
+        barStyle={Platform.OS === 'android' ? 'dark-content' : 'light-content'}
+        animated={true}
+        backgroundColor={'white'}
+      />
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Licenses</Text>

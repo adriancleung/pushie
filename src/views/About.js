@@ -7,7 +7,11 @@ import {PRIVACY_POLICY_URL} from '@app/constants';
 const About = ({navigation}) => {
   return (
     <>
-      <StatusBar barStyle={'dark-content'} animated={true} />
+      <StatusBar
+        barStyle={'dark-content'}
+        animated={true}
+        backgroundColor={'white'}
+      />
       <View style={styles.container}>
         <View style={styles.header}>
           <View style={styles.headerThirds}>
