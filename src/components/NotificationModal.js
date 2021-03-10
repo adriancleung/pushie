@@ -62,12 +62,12 @@ const NotificationModal = ({visible, item, onBackdropPress}) => {
   };
 
   return (
-    <Modal visible={visible} transparent={true}>
+    <Modal visible={visible} transparent={true} animationType={'fade'}>
       <StatusBar
         barStyle={'dark-content'}
         animated={false}
         backgroundColor={'rgba(0, 128, 255, 0.7)'}
-        translucent={true}
+        translucent={false}
       />
       <TouchableWithoutFeedback
         style={styles.container}
@@ -163,10 +163,7 @@ const styles = StyleSheet.create({
             perspective: 900,
           },
           // {
-          //   rotateY: Animated.divide(translateX, scaleX).interpolate({
-          //     inputRange: [-1, 0, 1],
-          //     outputRange: ['-45deg', '0deg', '45deg'],
-          //   }),
+          //   rotateY: Animated.divide(translateX, scaleX),
           // },
           {
             translateY: Animated.divide(translateY, scaleY),
