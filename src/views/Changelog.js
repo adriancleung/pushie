@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Platform,
 } from 'react-native';
 import Markdown from 'react-native-markdown-display';
 import Spinner from 'react-native-spinkit';
@@ -32,7 +33,11 @@ const Changelog = ({navigation}) => {
 
   return (
     <>
-      <StatusBar barStyle={'light-content'} animated={true} />
+      <StatusBar
+        barStyle={'light-content'}
+        animated={true}
+        backgroundColor={'black'}
+      />
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Release Notes</Text>
@@ -98,7 +103,15 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 30,
-    fontWeight: '900',
+    ...Platform.select({
+      ios: {
+        fontWeight: '900',
+      },
+      android: {
+        fontWeight: '900',
+        fontFamily: 'sans-serif-black',
+      },
+    }),
     color: 'white',
   },
   spinner: {

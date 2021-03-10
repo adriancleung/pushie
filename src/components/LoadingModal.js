@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal, StyleSheet, View} from 'react-native';
+import {Modal, StatusBar, StyleSheet, View} from 'react-native';
 import Spinner from 'react-native-spinkit';
 
 const LoadingModal = ({visible}) => {
@@ -8,6 +8,12 @@ const LoadingModal = ({visible}) => {
       visible={visible}
       presentationStyle={'fullScreen'}
       animationType={'slide'}>
+      <StatusBar
+        barStyle={'light-content'}
+        animated={true}
+        backgroundColor={'#0080FF'}
+        translucent={false}
+      />
       <View style={styles.centerView}>
         <Spinner type={'CircleFlip'} size={100} color={'white'} />
       </View>

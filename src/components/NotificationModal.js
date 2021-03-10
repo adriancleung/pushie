@@ -8,6 +8,8 @@ import {
   Easing,
   TouchableWithoutFeedback,
   Dimensions,
+  StatusBar,
+  Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {PanGestureHandler, State} from 'react-native-gesture-handler';
@@ -60,7 +62,13 @@ const NotificationModal = ({visible, item, onBackdropPress}) => {
   };
 
   return (
-    <Modal visible={visible} transparent={true}>
+    <Modal visible={visible} transparent={true} animationType={'fade'}>
+      <StatusBar
+        barStyle={'dark-content'}
+        animated={false}
+        backgroundColor={'rgba(0, 128, 255, 0.7)'}
+        translucent={false}
+      />
       <TouchableWithoutFeedback
         style={styles.container}
         onPress={(event) => dismissOnBackdrop(event)}>
@@ -139,13 +147,30 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    transform: [
-      {
-        perspective: 900,
-        rotateY: Animated.divide(translateX, scaleX),
-        translateY: Animated.divide(translateY, scaleY),
+    ...Platform.select({
+      ios: {
+        transform: [
+          {
+            perspective: 900,
+            rotateY: Animated.divide(translateX, scaleX),
+            translateY: Animated.divide(translateY, scaleY),
+          },
+        ],
       },
-    ],
+      android: {
+        transform: [
+          {
+            perspective: 900,
+          },
+          // {
+          //   rotateY: Animated.divide(translateX, scaleX),
+          // },
+          {
+            translateY: Animated.divide(translateY, scaleY),
+          },
+        ],
+      },
+    }),
   },
   modalContent: {
     width: '100%',
@@ -174,7 +199,15 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: '900',
+    ...Platform.select({
+      ios: {
+        fontWeight: '900',
+      },
+      android: {
+        fontWeight: '900',
+        fontFamily: 'sans-serif-black',
+      },
+    }),
   },
   description: {
     fontSize: 20,

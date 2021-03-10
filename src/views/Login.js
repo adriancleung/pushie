@@ -42,7 +42,11 @@ const Login = () => {
 
   return (
     <>
-      <StatusBar barStyle={'dark-content'} animated={true} />
+      <StatusBar
+        barStyle={'dark-content'}
+        animated={true}
+        backgroundColor={'white'}
+      />
       <AlertModal
         visible={alertModalVisible}
         onBackdropPress={(value) => setAlertModalVisible(value)}>
@@ -105,7 +109,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
-    marginTop: StatusBar.currentHeight || 0,
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
@@ -118,7 +121,15 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 90,
-    fontWeight: '900',
+    ...Platform.select({
+      ios: {
+        fontWeight: '900',
+      },
+      android: {
+        fontWeight: '900',
+        fontFamily: 'sans-serif-black',
+      },
+    }),
     color: '#0080ff',
   },
   username: {

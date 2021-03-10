@@ -4,7 +4,7 @@ import auth from '@react-native-firebase/auth';
 import {enableScreens} from 'react-native-screens';
 import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import Splash from 'react-native-splash-screen';
 import {
   About,
@@ -26,7 +26,10 @@ const AboutStack = () => {
     <SafeAreaView style={styles.safeViewContainer}>
       <NativeStack.Navigator
         initialRouteName={'About'}
-        screenOptions={{headerShown: false}}>
+        screenOptions={{
+          headerShown: false,
+          ...TransitionPresets.SlideFromRightIOS,
+        }}>
         <NativeStack.Screen name={'About'} component={About} />
         <NativeStack.Screen
           name={'License'}
@@ -48,7 +51,10 @@ const SettingsStack = () => {
     <SafeAreaView style={styles.safeViewContainer}>
       <Stack.Navigator
         initialRouteName={'Settings'}
-        screenOptions={{headerShown: false}}>
+        screenOptions={{
+          headerShown: false,
+          ...TransitionPresets.SlideFromRightIOS,
+        }}>
         <Stack.Screen name={'Settings'} component={Settings} />
         <Stack.Screen name={'AboutStack'} component={AboutStack} />
         <Stack.Screen name={'API Key'} component={Api} />
@@ -83,7 +89,11 @@ const Navigator = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+          ...TransitionPresets.SlideFromRightIOS,
+        }}>
         {!user ? (
           <Stack.Screen
             name={'Login'}
