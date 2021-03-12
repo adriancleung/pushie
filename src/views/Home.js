@@ -185,13 +185,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  flatListView: {
-    paddingTop: 10,
-    paddingBottom: 20,
-    paddingHorizontal: 20,
-  },
+  flatListView: {},
   separator: {
-    paddingVertical: 10,
+    paddingVertical: 5,
   },
 });
 

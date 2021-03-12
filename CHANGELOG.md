@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add copy API key to clipboard button
 - Update UI
 - Add Android support
+- Add swipe to delete
 
 ## [1.1.0] - 2021-02-13
 ### Added

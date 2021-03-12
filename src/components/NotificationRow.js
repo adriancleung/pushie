@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableNativeFeedback} from 'react-native';
 import ContextMenu from 'react-native-context-menu-view';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import {DeleteSwipeable} from '@app/components';
 import {getLocalDateTime} from '@app/util';
 import {CONTEXT_SHARE, CONTEXT_DELETE, CONTEXT_PREVIEW} from '@app/constants';
 
@@ -11,45 +13,53 @@ const NotificationRow = ({
   setNotificationItem,
   setModalVisible,
   onShare,
-}) => (
-  <TouchableNativeFeedback onPress={onPress} onLongPress={() => null}>
-    <View style={styles.notificationRow}>
-      <ContextMenu
-        previewBackgroundColor={'white'}
-        actions={[
-          {
-            title: CONTEXT_SHARE,
-            systemIcon: 'square.and.arrow.up',
-            destructive: false,
-          },
-          {title: CONTEXT_DELETE, systemIcon: 'trash', destructive: true},
-        ]}
-        onPress={(event) => {
-          const {name} = event.nativeEvent;
-          if (name === CONTEXT_DELETE) {
-            removeNotification();
-          } else if (name === CONTEXT_PREVIEW) {
-            setNotificationItem();
-            setModalVisible();
-          } else if (name === CONTEXT_SHARE) {
-            onShare();
-          }
-        }}>
-        <View style={styles.context}>
-          <Text style={styles.notificationTitle}>{item.title}</Text>
-          <Text style={styles.notificationShortDescription}>
-            {item.shortDescription}
-          </Text>
-          <View style={styles.notificationFooter}>
-            <Text style={styles.notificationTime}>
-              {getLocalDateTime(item.timestamp)}
-            </Text>
-          </View>
+}) => {
+  return (
+    <Swipeable
+      renderRightActions={(progress, dragX) =>
+        DeleteSwipeable(progress, dragX, removeNotification)
+      }
+      childrenContainerStyle={styles.swipeableChild}>
+      <TouchableNativeFeedback onPress={onPress} onLongPress={() => null}>
+        <View style={styles.notificationRow}>
+          <ContextMenu
+            previewBackgroundColor={'white'}
+            actions={[
+              {
+                title: CONTEXT_SHARE,
+                systemIcon: 'square.and.arrow.up',
+                destructive: false,
+              },
+              {title: CONTEXT_DELETE, systemIcon: 'trash', destructive: true},
+            ]}
+            onPress={(event) => {
+              const {name} = event.nativeEvent;
+              if (name === CONTEXT_DELETE) {
+                removeNotification();
+              } else if (name === CONTEXT_PREVIEW) {
+                setNotificationItem();
+                setModalVisible();
+              } else if (name === CONTEXT_SHARE) {
+                onShare();
+              }
+            }}>
+            <View style={styles.context}>
+              <Text style={styles.notificationTitle}>{item.title}</Text>
+              <Text style={styles.notificationShortDescription}>
+                {item.shortDescription}
+              </Text>
+              <View style={styles.notificationFooter}>
+                <Text style={styles.notificationTime}>
+                  {getLocalDateTime(item.timestamp)}
+                </Text>
+              </View>
+            </View>
+          </ContextMenu>
         </View>
-      </ContextMenu>
-    </View>
-  </TouchableNativeFeedback>
-);
+      </TouchableNativeFeedback>
+    </Swipeable>
+  );
+};
 
 const styles = StyleSheet.create({
   notificationRow: {
@@ -59,7 +69,11 @@ const styles = StyleSheet.create({
     shadowColor: 'grey',
     shadowOffset: {height: 2, width: 0},
     shadowOpacity: 0.5,
-    elevation: 8,
+    elevation: 5,
+  },
+  swipeableChild: {
+    paddingVertical: 5,
+    paddingHorizontal: 20,
   },
   context: {
     paddingTop: 5,
