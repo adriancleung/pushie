@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 - Add password reset
 
-## [1.2.0] - TBA
+## [1.2.0] - 2021-03-25
 ### Added
 - Ability to regenerate a new API key
 - Add copy API key to clipboard button
@@ -40,7 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Instructions on how to use
 ## [1.0.0-rc.1] - 2021-01-30
 
-[Unreleased]: https://github.com/adriancleung/pushie/compare/v1.2.0-rc.1...HEAD
+[Unreleased]: https://github.com/adriancleung/pushie/compare/v1.2.0...HEAD
 
 [1.2.0]: https://github.com/adriancleung/pushie/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/adriancleung/pushie/compare/v1.0.0...v1.1.0
