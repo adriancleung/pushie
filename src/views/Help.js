@@ -28,8 +28,9 @@ const Help = ({navigation}) => {
         <Menlo style={styles.menloText}>pushie-api-key</Menlo> to you API key.
         {'\n\n'}2. In the JSON body, include a{' '}
         <Menlo style={styles.menloText}>title</Menlo>,{' '}
-        <Menlo style={styles.menloText}>shortDescription</Menlo>, and{' '}
-        <Menlo style={styles.menloText}>description</Menlo>.
+        <Menlo style={styles.menloText}>shortDescription</Menlo>,{' '}
+        <Menlo style={styles.menloText}>description</Menlo> (optional) and{' '}
+        <Menlo style={styles.menloText}>label</Menlo> (optional).
       </Text>
     </View>
   );

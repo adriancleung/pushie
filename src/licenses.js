@@ -111,6 +111,11 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 const LICENSES = [
   {
     type: 'MIT License',
+    name: '@gorhom/bottom-sheet',
+    copyright: 'Copyright (c) 2020 Mo Gorhom, Raul Gomez Acuna',
+  },
+  {
+    type: 'MIT License',
     name: '@react-native-async-storage/async-storage',
     copyright: 'Copyright (c) 2015-present, Facebook, Inc.',
   },
@@ -118,6 +123,11 @@ const LICENSES = [
     type: 'MIT License',
     name: '@react-native-clipboard/clipboard',
     copyright: 'Copyright (c) 2015-present, Facebook, Inc.',
+  },
+  {
+    type: 'MIT License',
+    name: '@react-native-community/checkbox',
+    copyright: 'Copyright (c) 2019 react-native-community',
   },
   {
     type: 'MIT License',
