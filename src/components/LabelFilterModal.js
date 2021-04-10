@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import React, {useState} from 'react';
+import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {
   BottomSheetModal,
   BottomSheetBackdrop,
@@ -8,6 +8,12 @@ import {
 import CheckBox from '@react-native-community/checkbox';
 
 const LabelFilterModal = React.forwardRef(({labels, onChange}, ref) => {
+  const [selectAll, setSelectAll] = useState(
+    labels.filter((label) => label.value === true).length === labels.length
+      ? true
+      : false,
+  );
+
   const renderCheckBoxRow = (label) => {
     return (
       <View style={styles.checkBoxRow} key={label.label}>
@@ -25,7 +31,13 @@ const LabelFilterModal = React.forwardRef(({labels, onChange}, ref) => {
             onChange();
           }}
         />
-        <Text style={styles.checkBoxLabelText}>{label.label}</Text>
+        <TouchableOpacity
+          onPress={() => {
+            label.value = !label.value;
+            onChange();
+          }}>
+          <Text style={styles.checkBoxLabelText}>{label.label}</Text>
+        </TouchableOpacity>
       </View>
     );
   };
@@ -48,9 +60,25 @@ const LabelFilterModal = React.forwardRef(({labels, onChange}, ref) => {
             onAnimationType={'one-stroke'}
             offAnimationType={'one-stroke'}
             style={styles.checkBox}
-            value={true}
+            value={selectAll}
+            onValueChange={(value) => {
+              labels.forEach((label) => {
+                label.value = value;
+              });
+              setSelectAll(!selectAll);
+              onChange();
+            }}
           />
-          <Text style={styles.checkBoxLabelText}>Select All</Text>
+          <TouchableOpacity
+            onPress={() => {
+              labels.forEach((label) => {
+                label.value = !selectAll;
+              });
+              setSelectAll(!selectAll);
+              onChange();
+            }}>
+            <Text style={styles.checkBoxLabelText}>Select All</Text>
+          </TouchableOpacity>
         </View>
         {labels.map((label) => renderCheckBoxRow(label))}
       </BottomSheetScrollView>

@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {Menlo} from '@app/components';
+import {CodeBlock, Menlo} from '@app/components';
 
 const Help = ({navigation}) => {
   return (
@@ -27,11 +27,25 @@ const Help = ({navigation}) => {
         and set the header{' '}
         <Menlo style={styles.menloText}>pushie-api-key</Menlo> to you API key.
         {'\n\n'}2. In the JSON body, include a{' '}
-        <Menlo style={styles.menloText}>title</Menlo>,{' '}
-        <Menlo style={styles.menloText}>shortDescription</Menlo>,{' '}
-        <Menlo style={styles.menloText}>description</Menlo> (optional) and{' '}
-        <Menlo style={styles.menloText}>label</Menlo> (optional).
+        <Menlo style={styles.menloText}>title</Menlo> and a{' '}
+        <Menlo style={styles.menloText}>shortDescription</Menlo>. A{' '}
+        <Menlo style={styles.menloText}>description</Menlo> and a{' '}
+        <Menlo style={styles.menloText}>label</Menlo> are optional.
       </Text>
+      <Text>Example CURL request:</Text>
+      <CodeBlock>
+        {`curl -X POST https://api.adrianleung.dev/pushie/notify \\
+  -H "Content-Type: application/json" \\
+  -H "pushie-api-key: INSERT_API_KEY" \\
+  -d @- <<'EOF'
+  {
+    "title":"Hello World!",
+    "shortDescription":"Short and sweet",
+    "description":"Something more descriptive",
+    "label":"test"
+  }
+  EOF`}
+      </CodeBlock>
     </View>
   );
 };
