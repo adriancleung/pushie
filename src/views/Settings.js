@@ -40,7 +40,7 @@ const Settings = ({navigation}) => {
             />
           </View>
         </View>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <SettingRow
             title={'API Key'}
             navigateTo={'API Key'}

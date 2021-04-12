@@ -62,11 +62,11 @@ const NotificationModal = ({visible, item, onBackdropPress}) => {
   };
 
   return (
-    <Modal visible={visible} transparent={true} animationType={'fade'}>
+    <Modal visible={visible} transparent={true} animationType={'none'}>
       <StatusBar
         barStyle={'dark-content'}
         animated={false}
-        backgroundColor={'rgba(0, 128, 255, 0.7)'}
+        backgroundColor={'rgba(0, 128, 255, 0.5)'}
         translucent={false}
       />
       <TouchableWithoutFeedback
@@ -111,6 +111,7 @@ const NotificationModal = ({visible, item, onBackdropPress}) => {
                     </Text>
                   </View>
                   <View style={styles.footer}>
+                    <Text style={styles.labelText}>{item.label}</Text>
                     <Text>{getLocalDateTime(item.timestamp)}</Text>
                   </View>
                 </View>
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 128, 255, 0.7)',
+    backgroundColor: 'rgba(0, 128, 255, 0.5)',
   },
   modalView: {
     width: '80%',
@@ -186,8 +187,12 @@ const styles = StyleSheet.create({
   },
   footer: {
     flex: 1,
-    justifyContent: 'flex-end',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'flex-end',
+  },
+  labelText: {
+    color: '#0080FF',
   },
   titleView: {
     flex: 9,

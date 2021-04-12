@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, TouchableNativeFeedback} from 'react-native';
 import ContextMenu from 'react-native-context-menu-view';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {DeleteSwipeable} from '@app/components';
-import {getLocalDateTime} from '@app/util';
+import {prettyPrintTime} from '@app/util';
 import {CONTEXT_SHARE, CONTEXT_DELETE, CONTEXT_PREVIEW} from '@app/constants';
 
 const NotificationRow = ({
@@ -49,8 +49,9 @@ const NotificationRow = ({
                 {item.shortDescription}
               </Text>
               <View style={styles.notificationFooter}>
+                <Text style={styles.label}>{item.label}</Text>
                 <Text style={styles.notificationTime}>
-                  {getLocalDateTime(item.timestamp)}
+                  {prettyPrintTime(item.timestamp)}
                 </Text>
               </View>
             </View>
@@ -82,15 +83,21 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   notificationTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
   },
   notificationShortDescription: {
+    fontSize: 14,
     paddingBottom: 10,
   },
   notificationFooter: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
+  },
+  label: {
+    alignSelf: 'flex-end',
+    fontSize: 10,
+    color: '#0080FF',
   },
   notificationTime: {
     color: 'grey',

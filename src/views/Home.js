@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -12,7 +12,12 @@ import {
 import messaging from '@react-native-firebase/messaging';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Spinner from 'react-native-spinkit';
-import {NotificationRow, NotificationModal} from '@app/components';
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import {
+  NotificationRow,
+  NotificationModal,
+  LabelFilterModal,
+} from '@app/components';
 import {
   deleteNotification,
   getNotifications,
@@ -24,7 +29,10 @@ const Home = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [notificationItem, setNotificationItem] = useState({});
   const [notifications, setNotifications] = useState([]);
+  const [allNotifications, setAllNotifications] = useState([]);
+  const [labels, setLabels] = useState([]);
   const [loading, setLoading] = useState(true);
+  const bottomSheetModalRef = useRef(null);
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async () => {
@@ -40,6 +48,7 @@ const Home = ({navigation}) => {
       });
 
     return unsubscribe;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const removeNotification = async (item) => {
@@ -84,11 +93,39 @@ const Home = ({navigation}) => {
     />
   );
 
+  const getLabels = (data) => {
+    const uniqueLabels = [
+      ...new Set(
+        data.map((item) =>
+          item.label === undefined ? 'No Label' : item.label,
+        ),
+      ),
+    ].map((label) => {
+      return {
+        label: label,
+        value: true,
+      };
+    });
+    setLabels(uniqueLabels);
+  };
+
+  const filterLabels = () => {
+    const filteredLabels = labels
+      .filter((label) => label.value === true)
+      .map((item) => (item.label === 'No Label' ? undefined : item.label));
+    const filteredNotifications = allNotifications.filter((notification) => {
+      return filteredLabels.includes(notification.label);
+    });
+    setNotifications(filteredNotifications);
+  };
+
   const loadNotifications = async () => {
     setLoading(true);
     try {
       const res = await getNotifications();
       setNotifications(res);
+      setAllNotifications(res);
+      getLabels(res);
     } catch (err) {
       console.error(err);
     }
@@ -97,53 +134,73 @@ const Home = ({navigation}) => {
 
   useEffect(() => {
     loadNotifications();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
-      <StatusBar
-        barStyle={'dark-content'}
-        animated={true}
-        backgroundColor={'white'}
-      />
-      <NotificationModal
-        visible={modalVisible}
-        item={notificationItem}
-        onBackdropPress={(value) => setModalVisible(value)}
-      />
-      <SafeAreaView style={styles.container}>
-        <View style={styles.splitTop}>
-          <View>
-            <Text style={styles.title}>pushie</Text>
-            <Text style={styles.subtitle}>Notifications</Text>
-          </View>
-          <View>
-            <Icon
-              name={'settings'}
-              size={30}
-              style={styles.settingsButton}
-              onPress={() => navigation.navigate('SettingsStack')}
+      <BottomSheetModalProvider>
+        <StatusBar
+          barStyle={'dark-content'}
+          animated={true}
+          backgroundColor={'white'}
+        />
+        <NotificationModal
+          visible={modalVisible}
+          item={notificationItem}
+          onBackdropPress={(value) => setModalVisible(value)}
+        />
+        <View style={styles.container}>
+          <SafeAreaView>
+            <View style={styles.splitTop}>
+              <View>
+                <Text style={styles.title}>pushie</Text>
+                <Text style={styles.subtitle}>Notifications</Text>
+              </View>
+              <View style={styles.headerButtons}>
+                <View style={styles.buttonView}>
+                  <Icon
+                    name={'settings'}
+                    size={30}
+                    onPress={() => navigation.navigate('SettingsStack')}
+                  />
+                </View>
+                <View style={styles.buttonView}>
+                  <Icon
+                    name={'label'}
+                    size={30}
+                    onPress={() => bottomSheetModalRef.current?.present()}
+                  />
+                </View>
+              </View>
+            </View>
+          </SafeAreaView>
+          {loading ? (
+            <View style={styles.loadingView}>
+              <Spinner type={'CircleFlip'} size={100} color={'#0080FF'} />
+            </View>
+          ) : (
+            <FlatList
+              contentContainerStyle={styles.flatListView}
+              showsVerticalScrollIndicator={false}
+              refreshing={loading}
+              onRefresh={() => loadNotifications()}
+              data={notifications}
+              renderItem={renderNotificationRow}
+              keyExtractor={(item) => item.id}
+              ItemSeparatorComponent={() => {
+                return <View style={styles.separator} />;
+              }}
             />
-          </View>
+          )}
         </View>
-        {loading ? (
-          <View style={styles.loadingView}>
-            <Spinner type={'CircleFlip'} size={100} color={'#0080FF'} />
-          </View>
-        ) : (
-          <FlatList
-            contentContainerStyle={styles.flatListView}
-            refreshing={loading}
-            onRefresh={() => loadNotifications()}
-            data={notifications}
-            renderItem={renderNotificationRow}
-            keyExtractor={(item) => item.id}
-            ItemSeparatorComponent={() => {
-              return <View style={styles.separator} />;
-            }}
-          />
-        )}
-      </SafeAreaView>
+
+        <LabelFilterModal
+          ref={bottomSheetModalRef}
+          labels={labels}
+          onChange={() => filterLabels()}
+        />
+      </BottomSheetModalProvider>
     </>
   );
 };
@@ -156,7 +213,6 @@ const styles = StyleSheet.create({
   splitTop: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
   },
   title: {
     paddingHorizontal: 20,
@@ -177,7 +233,11 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
   },
-  settingsButton: {
+  buttonView: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  headerButtons: {
     paddingHorizontal: 20,
   },
   loadingView: {
@@ -185,7 +245,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  flatListView: {},
+  flatListView: {
+    paddingTop: 10,
+    paddingBottom: 30,
+  },
   separator: {
     paddingVertical: 5,
   },

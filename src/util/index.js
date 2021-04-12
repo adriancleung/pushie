@@ -1,4 +1,4 @@
-import {getLocalDateTime} from './dateTime';
+import {getLocalDateTime, prettyPrintTime} from './dateTime';
 import {
   getDeviceBiometrics,
   storeInKeychain,
@@ -12,6 +12,7 @@ export {
   getDeviceBiometrics,
   storeInKeychain,
   getFromKeychain,
+  prettyPrintTime,
   removeFromKeychain,
   storeData,
   getData,
