@@ -98,6 +98,8 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     fontSize: 10,
     color: '#0080FF',
+    textTransform: 'uppercase',
+    fontWeight: '300',
   },
   notificationTime: {
     color: 'grey',

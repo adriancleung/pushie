@@ -6,6 +6,7 @@ import {
   BottomSheetScrollView,
 } from '@gorhom/bottom-sheet';
 import CheckBox from '@react-native-community/checkbox';
+import {toTitleCase} from '@app/util';
 
 const LabelFilterModal = React.forwardRef(({labels, onChange}, ref) => {
   const [selectAll, setSelectAll] = useState(
@@ -36,7 +37,9 @@ const LabelFilterModal = React.forwardRef(({labels, onChange}, ref) => {
             label.value = !label.value;
             onChange();
           }}>
-          <Text style={styles.checkBoxLabelText}>{label.label}</Text>
+          <Text style={styles.checkBoxLabelText}>
+            {toTitleCase(label.label)}
+          </Text>
         </TouchableOpacity>
       </View>
     );

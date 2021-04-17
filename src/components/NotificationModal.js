@@ -193,6 +193,8 @@ const styles = StyleSheet.create({
   },
   labelText: {
     color: '#0080FF',
+    textTransform: 'uppercase',
+    fontWeight: '300',
   },
   titleView: {
     flex: 9,

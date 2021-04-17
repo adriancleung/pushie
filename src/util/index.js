@@ -6,6 +6,7 @@ import {
   removeFromKeychain,
 } from './keychain';
 import {storeData, getData, clearStorage} from './storage';
+import {toTitleCase} from './string';
 
 export {
   getLocalDateTime,
@@ -17,4 +18,5 @@ export {
   storeData,
   getData,
   clearStorage,
+  toTitleCase,
 };
