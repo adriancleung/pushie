@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {Platform} from 'react-native';
 import messaging from '@react-native-firebase/messaging';
+import inAppMessaging from '@react-native-firebase/in-app-messaging';
 import Navigator from './src/Navigator';
 import Orientation from 'react-native-orientation-locker';
 import {UserProvider} from './src/context/UserContext';
@@ -16,6 +17,7 @@ const App = () => {
     if (Platform.OS === 'ios' && !Platform.isPad) {
       Orientation.lockToPortrait();
     }
+    inAppMessaging().setMessagesDisplaySuppressed(false);
     requestUserPermission();
   }, []);
 

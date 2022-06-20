@@ -5,6 +5,19 @@ import Help from './Help';
 import Home from './Home';
 import License from './License';
 import Login from './Login';
+import NoConnection from './NoConnection';
+import Onboarding from './Onboarding';
 import Settings from './Settings';
 
-export {About, Api, Changelog, Help, Home, License, Login, Settings};
+export {
+  About,
+  Api,
+  Changelog,
+  Help,
+  Home,
+  License,
+  Login,
+  NoConnection,
+  Onboarding,
+  Settings,
+};

@@ -10,7 +10,8 @@
     "noEmit": true,
     "strict": true,
     "target": "esnext",
-    "typeRoots": ["./src/types"]
+    "typeRoots": ["./src/types"],
+    "resolveJsonModule": true
   },
   "exclude": [
     "node_modules",

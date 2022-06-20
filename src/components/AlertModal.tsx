@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
     borderBottomColor: 'white',
   },
   buttonView: {
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   alertText: {
     color: 'white',
     fontSize: 20,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     textAlign: 'center',
   },
   closeButton: {

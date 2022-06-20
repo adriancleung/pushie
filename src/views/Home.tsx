@@ -22,6 +22,8 @@ import {Notification} from '../types/notification';
 import {Label} from '../types/label';
 import api from '../services/api';
 import {useUser} from '../context/UserContext';
+import {ErrorCode} from '../constants';
+import {BottomSheetModalMethods} from '@gorhom/bottom-sheet/lib/typescript/types';
 
 type Props = {
   navigation: any;
@@ -34,13 +36,16 @@ const Home: React.FC<Props> = ({navigation}) => {
   const [allNotifications, setAllNotifications] = useState<Notification[]>([]);
   const [labels, setLabels] = useState<Label[]>([]);
   const [loading, setLoading] = useState(true);
-  const bottomSheetModalRef = useRef(null);
+  const [isListEnd, setIsListEnd] = useState(false);
+  const [isListLoading, setIsListLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const bottomSheetModalRef = useRef<BottomSheetModalMethods>(null);
 
-  const {state: user} = useUser();
+  const {state: user, dispatch} = useUser();
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async () => {
-      loadNotifications();
+      loadMoreNotifications();
     });
 
     return unsubscribe;
@@ -98,11 +103,11 @@ const Home: React.FC<Props> = ({navigation}) => {
     );
   };
 
-  const getLabels = (allLabels: Label[]) => {
+  const getLabels = (all: Notification[]) => {
     const uniqueLabels = [
       ...new Set(
-        allLabels.map((label) =>
-          label.label === undefined ? 'No Label' : label.label,
+        all.map((one) =>
+          one.label === (undefined || null) ? 'No Label' : one.label,
         ),
       ),
     ].map((label) => {
@@ -117,7 +122,9 @@ const Home: React.FC<Props> = ({navigation}) => {
   const filterLabels = () => {
     const filteredLabels = labels
       .filter((label) => label.value === true)
-      .map((item) => (item.label === 'No Label' ? undefined : item.label));
+      .map((item) =>
+        item.label === 'No Label' ? undefined || null : item.label,
+      );
     const filteredNotifications = allNotifications.filter(
       (notification: Notification) => {
         return filteredLabels.includes(notification.label);
@@ -126,25 +133,78 @@ const Home: React.FC<Props> = ({navigation}) => {
     setNotifications(filteredNotifications);
   };
 
-  const loadNotifications = async () => {
+  const initalLoadOrResetList = async () => {
     setLoading(true);
+    setIsListEnd(false);
+    setPage(1);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1500);
     try {
-      // const res = await getNotifications();
-      const res = (await api.user.withId(user.userId).notifications.get())
+      const res = (await api.user.withId(user.userId).notifications.get(1))
         .notifications;
       setNotifications(res);
       setAllNotifications(res);
       getLabels(res);
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
+      if (err.message === ErrorCode.NETWORK_ERROR) {
+        dispatch({type: 'NO_CONNECTION'});
+      }
     }
-    setLoading(false);
+  };
+
+  const loadMoreNotifications = async () => {
+    setIsListLoading(true);
+    try {
+      const res = (await api.user.withId(user.userId).notifications.get(page))
+        .notifications;
+      if (res.length > 0) {
+        setNotifications(notifications.concat(res));
+        setAllNotifications(allNotifications.concat(res));
+        getLabels(notifications.concat(res));
+      } else {
+        setIsListEnd(true);
+      }
+    } catch (err: any) {
+      console.error(err);
+      if (err.message === ErrorCode.NETWORK_ERROR) {
+        dispatch({type: 'NO_CONNECTION'});
+      }
+    } finally {
+      setIsListLoading(false);
+    }
+  };
+
+  const fetchMoreNotifications = () => {
+    if (!isListEnd && !isListLoading) {
+      setPage(page + 1);
+    }
   };
 
   useEffect(() => {
-    loadNotifications();
+    if (page > 1) {
+      loadMoreNotifications();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
+
+  useEffect(() => {
+    initalLoadOrResetList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const EmptyListComponent = (
+    <View style={styles.emptyListView}>
+      <Icon
+        name={'notifications'}
+        color={'#AAAAAA'}
+        size={80}
+        style={styles.emptyListIcon}
+      />
+      <Text style={styles.emptyListText}>You have no notifications!</Text>
+    </View>
+  );
 
   return (
     <>
@@ -193,10 +253,13 @@ const Home: React.FC<Props> = ({navigation}) => {
               contentContainerStyle={styles.flatListView}
               showsVerticalScrollIndicator={false}
               refreshing={loading}
-              onRefresh={() => loadNotifications()}
+              onRefresh={initalLoadOrResetList}
               data={notifications}
               renderItem={renderNotificationRow}
               keyExtractor={(item: Notification) => item.id}
+              onEndReachedThreshold={1}
+              onEndReached={fetchMoreNotifications}
+              ListEmptyComponent={EmptyListComponent}
               ItemSeparatorComponent={() => {
                 return <View style={styles.separator} />;
               }}
@@ -217,7 +280,6 @@ const Home: React.FC<Props> = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
   },
   splitTop: {
     flexDirection: 'row',
@@ -257,9 +319,24 @@ const styles = StyleSheet.create({
   flatListView: {
     paddingTop: 10,
     paddingBottom: 30,
+    flexGrow: 1,
+  },
+  emptyListView: {
+    flex: 1,
+    marginBottom: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyListIcon: {
+    paddingBottom: 30,
+  },
+  emptyListText: {
+    color: '#AAAAAA',
+    fontSize: 20,
+    fontWeight: '300',
   },
   separator: {
-    paddingVertical: 5,
+    paddingVertical: 2,
   },
 });
 

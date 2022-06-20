@@ -11,7 +11,7 @@ const LoadingModal: React.FC<Props> = ({visible}) => {
     <Modal
       visible={visible}
       presentationStyle={'fullScreen'}
-      animationType={'slide'}>
+      animationType={'fade'}>
       <StatusBar
         barStyle={'light-content'}
         animated={true}

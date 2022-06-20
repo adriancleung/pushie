@@ -5,7 +5,7 @@ export type Notification = {
   title: string;
   shortDescription: string;
   description: string;
-  labels: string[];
+  label: string;
   timestamp: string;
   user: User;
 };

@@ -55,8 +55,9 @@ const LabelFilterModal = React.forwardRef<BottomSheetModal, Props>(
     return (
       <BottomSheetModal
         ref={ref}
-        index={1}
-        snapPoints={['0%', '30%']}
+        index={0}
+        snapPoints={['30%']}
+        enablePanDownToClose
         backdropComponent={BottomSheetBackdrop}>
         <BottomSheetScrollView
           contentContainerStyle={styles.contentContainer}

@@ -5,7 +5,6 @@ import {
   View,
   Text,
   Animated,
-  Easing,
   TouchableWithoutFeedback,
   Dimensions,
   StatusBar,
@@ -53,7 +52,6 @@ const NotificationModal: React.FC<Props> = ({
           nativeEvent.velocityY > 0
             ? translateY._value + screenHeight * scaleY._value
             : translateY._value - screenHeight * scaleY._value,
-        easing: Easing.ease,
         duration: 250,
         useNativeDriver: true,
       }).start(() => onBackdropPress(!visible));
@@ -71,18 +69,14 @@ const NotificationModal: React.FC<Props> = ({
 
   const dismissOnBackdrop = (event: GestureResponderEvent) => {
     Animated.timing(translateY, {
-      toValue:
-        event.nativeEvent.pageY > screenHeight / 2
-          ? translateY._value - screenHeight * scaleY._value
-          : translateY._value + screenHeight * scaleY._value,
-      easing: Easing.back(),
-      duration: 500,
+      toValue: screenHeight * 2,
+      duration: 250,
       useNativeDriver: true,
     }).start(() => onBackdropPress(!visible));
   };
 
   return (
-    <Modal visible={visible} transparent={true} animationType={'none'}>
+    <Modal visible={visible} transparent={true} animationType={'fade'}>
       <StatusBar
         barStyle={'dark-content'}
         animated={false}
@@ -131,7 +125,7 @@ const NotificationModal: React.FC<Props> = ({
                     </Text>
                   </View>
                   <View style={styles.footer}>
-                    <Text style={styles.labelText}>{notification?.labels}</Text>
+                    <Text style={styles.labelText}>{notification?.label}</Text>
                     <Text>{getLocalDateTime(notification?.timestamp)}</Text>
                   </View>
                 </View>
@@ -150,45 +144,37 @@ const styles = StyleSheet.create({
   },
   centerView: {
     flex: 1,
-    justifyContent: 'center',
+    paddingBottom: 30,
+    justifyContent: 'flex-end',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 128, 255, 0.5)',
   },
   modalView: {
-    width: '80%',
+    width: '90%',
     height: '40%',
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 10,
-    shadowColor: '#000',
+    shadowColor: '#dadada',
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 1,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowOpacity: 1,
+    shadowRadius: 2,
     elevation: 5,
     ...Platform.select({
       ios: {
         transform: [
-          {
-            perspective: 900,
-            rotateY: Animated.divide(translateX, scaleX),
-            translateY: Animated.divide(translateY, scaleY),
-          },
+          {perspective: 900},
+          {rotateY: Animated.divide(translateX, scaleX)},
+          {translateY: Animated.divide(translateY, scaleY)},
         ],
       },
       android: {
         transform: [
-          {
-            perspective: 900,
-          },
-          // {
-          //   rotateY: Animated.divide(translateX, scaleX),
-          // },
-          {
-            translateY: Animated.divide(translateY, scaleY),
-          },
+          {perspective: 900},
+          {translateY: Animated.divide(translateY, scaleY)},
         ],
       },
     }),

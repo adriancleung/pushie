@@ -88,28 +88,19 @@ const Api: React.FC<Props> = ({navigation}) => {
     spinner.start(() => loopAnimation());
   };
 
-  const handleRefreshApiKey = () => {
+  const handleRefreshApiKey = async () => {
     loopAnimation();
-    api.user
-      .withId(user.userId)
-      .apis.refresh()
-      .then((value) => {
-        storeInKeychain('api', value)
-          .then(() => {
-            if (apiVisible.current) {
-              result = value;
-            }
-            stopAnimation = true;
-          })
-          .catch((err) => {
-            console.error(err);
-            stopAnimation = true;
-          });
-      })
-      .catch((err) => {
-        console.error(err);
-        stopAnimation = true;
-      });
+    try {
+      const {apiKey: key} = await api.user.withId(user.userId).apis.refresh();
+      await storeInKeychain('api', key);
+      if (apiVisible.current) {
+        result = key;
+      }
+      stopAnimation = true;
+    } catch (err) {
+      console.error(err);
+      stopAnimation = true;
+    }
   };
 
   return (

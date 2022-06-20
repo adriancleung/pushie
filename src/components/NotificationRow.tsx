@@ -4,7 +4,7 @@ import ContextMenu from 'react-native-context-menu-view';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import DeleteSwipeable from './DeleteSwipeable';
 import {prettyPrintTime} from '../util';
-import {CONTEXT_SHARE, CONTEXT_DELETE, CONTEXT_PREVIEW} from '../constants';
+import {ContextMenuAction} from '../constants';
 import {Notification} from '../types/notification';
 
 type Props = {
@@ -39,21 +39,30 @@ const NotificationRow: React.FC<Props> = ({
             previewBackgroundColor={'white'}
             actions={[
               {
-                title: CONTEXT_SHARE,
+                title: ContextMenuAction.SHARE,
                 systemIcon: 'square.and.arrow.up',
                 destructive: false,
               },
-              {title: CONTEXT_DELETE, systemIcon: 'trash', destructive: true},
+              {
+                title: ContextMenuAction.DELETE,
+                systemIcon: 'trash',
+                destructive: true,
+              },
             ]}
             onPress={(event) => {
               const {name} = event.nativeEvent;
-              if (name === CONTEXT_DELETE) {
-                removeNotification();
-              } else if (name === CONTEXT_PREVIEW) {
-                setNotificationItem();
-                setModalVisible();
-              } else if (name === CONTEXT_SHARE) {
-                onShare();
+              switch (name) {
+                case ContextMenuAction.DELETE:
+                  removeNotification();
+                  break;
+                case ContextMenuAction.PREVIEW:
+                  setNotificationItem();
+                  setModalVisible();
+                  break;
+                case ContextMenuAction.SHARE:
+                  onShare();
+                  break;
+                default:
               }
             }}>
             <View style={styles.context}>
@@ -62,7 +71,7 @@ const NotificationRow: React.FC<Props> = ({
                 {notification.shortDescription}
               </Text>
               <View style={styles.notificationFooter}>
-                <Text style={styles.label}>{notification.labels}</Text>
+                <Text style={styles.label}>{notification.label}</Text>
                 <Text style={styles.notificationTime}>
                   {prettyPrintTime(notification.timestamp)}
                 </Text>
@@ -79,10 +88,10 @@ const styles = StyleSheet.create({
   notificationRow: {
     backgroundColor: 'white',
     borderRadius: 10,
-    shadowRadius: 3,
-    shadowColor: 'grey',
-    shadowOffset: {height: 2, width: 0},
-    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    shadowColor: '#dadada',
+    shadowOffset: {height: 1, width: 0},
+    shadowOpacity: 1,
     elevation: 5,
   },
   swipeableChild: {

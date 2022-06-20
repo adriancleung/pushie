@@ -11,6 +11,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {SettingRow} from '../components';
 import {useUser} from '../context/UserContext';
 import api from '../services/api';
+import {displayName} from '../../app.json';
+import {version} from '../../package.json';
 
 type Props = {
   navigation: any;
@@ -65,7 +67,16 @@ const Settings: React.FC<Props> = ({navigation}) => {
             navigateTo={'AboutStack'}
             icon={'info-outline'}
           />
+          <SettingRow
+            title={'Show Onboarding'}
+            onPress={() => dispatch({type: 'SHOW_ONBOARDING'})}
+            icon={'amp-stories'}
+          />
         </ScrollView>
+        <View style={styles.footer}>
+          <Text>{displayName}</Text>
+          <Text>{version}</Text>
+        </View>
       </SafeAreaView>
     </>
   );
@@ -91,6 +102,11 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     alignSelf: 'flex-end',
+  },
+  footer: {
+    paddingBottom: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

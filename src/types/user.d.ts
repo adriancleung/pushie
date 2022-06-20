@@ -3,4 +3,7 @@ export type User = {
   email: string;
   accessToken: string;
   role: string;
+  connection: boolean;
+  loading: boolean;
+  onboarding: boolean;
 };

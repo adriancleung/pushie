@@ -20,15 +20,39 @@ axios.interceptors.request.use(async (config) => {
 
 const api = {
   login: async (email: string, password: string): Promise<User> => {
-    const result = (await axios.post('/login', {email, password})).data;
-    await storeData('access-token', result.accessToken);
-    return result;
+    try {
+      const result = (await axios.post('/login', {email, password})).data;
+      await storeData('access-token', result.accessToken);
+      return result;
+    } catch (err: any) {
+      if (err.response) {
+        if (err.response.status === 400) {
+          throw err.response.data.errors[0].msg;
+        } else {
+          throw err.response.data.message;
+        }
+      } else {
+        throw err;
+      }
+    }
   },
 
   register: async (email: string, password: string): Promise<User> => {
-    const result = (await axios.post('/register', {email, password})).data;
-    await storeData('access-token', result.accessToken);
-    return result;
+    try {
+      const result = (await axios.post('/register', {email, password})).data;
+      await storeData('access-token', result.accessToken);
+      return result;
+    } catch (err: any) {
+      if (err.response) {
+        if (err.response.status === 400) {
+          throw err.response.data.errors[0].msg;
+        } else {
+          throw err.response.data.message;
+        }
+      } else {
+        throw err;
+      }
+    }
   },
 
   logout: () => {
@@ -47,8 +71,15 @@ const api = {
         },
       },
       notifications: {
-        get: async (): Promise<{notifications: Notification[]}> => {
-          return (await axios.get(`/users/${userId}/notifications`)).data;
+        get: async (
+          page: number,
+          size = 20,
+        ): Promise<{notifications: Notification[]}> => {
+          return (
+            await axios.get(`/users/${userId}/notifications`, {
+              params: {page, size},
+            })
+          ).data;
         },
         withId: (notificationId: string) => ({
           get: async (): Promise<{notification: Notification}> => {

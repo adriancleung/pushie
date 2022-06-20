@@ -4,17 +4,18 @@ import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 type Props = {
-  navigateTo: string;
+  navigateTo?: string;
   icon: string;
   title: string;
+  onPress?: () => void;
 };
 
-const SettingRow: React.FC<Props> = ({navigateTo, icon, title}) => {
+const SettingRow: React.FC<Props> = ({navigateTo, icon, title, onPress}) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => navigation.navigate(navigateTo)}>
+      onPress={navigateTo ? () => navigation.navigate(navigateTo) : onPress}>
       <View style={styles.item}>
         <Icon name={icon} style={styles.icon} />
         <Text style={styles.title}>{title}</Text>

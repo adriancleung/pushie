@@ -12,20 +12,28 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
+import messaging from '@react-native-firebase/messaging';
 import {LoadingModal, AlertModal} from '../components';
 import api from '../services/api';
 import {useUser} from '../context/UserContext';
+import {storeInKeychain} from '../util';
+import {ErrorCode} from '../constants';
 
-const Login = () => {
-  const email = useRef();
-  const password = useRef();
+type Props = {};
+
+const Login: React.FC<Props> = () => {
+  const email = useRef<string | null>(null);
+  const password = useRef<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [alertModalVisible, setAlertModalVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
 
   const {dispatch} = useUser();
 
-  const onTextChange = (ref: React.RefObject<any>, value: string) => {
+  const onTextChange = (
+    ref: React.MutableRefObject<string | null>,
+    value: string,
+  ) => {
     ref.current = value;
   };
 
@@ -36,19 +44,40 @@ const Login = () => {
     } else {
       setLoading(true);
       try {
-        const user = await api.login(email.current, password.current);
+        const user = await api.register(email.current, password.current);
+        const token = await messaging().getToken();
+        api.user.withId(user.userId).tokens.add(token);
+        const {apiKey} = await api.user.withId(user.userId).apis.get();
+        storeInKeychain('api', apiKey);
         dispatch({type: 'UPDATE', value: user});
       } catch (err: any) {
+        if (err === 'E-mail already in use') {
+          try {
+            const user = await api.login(email.current, password.current);
+            const token = await messaging().getToken();
+            api.user.withId(user.userId).tokens.add(token);
+            const {apiKey} = await api.user.withId(user.userId).apis.get();
+            storeInKeychain('api', apiKey);
+            dispatch({type: 'UPDATE', value: user});
+          } catch (loginErr: any) {
+            if (loginErr.message === ErrorCode.NETWORK_ERROR) {
+              dispatch({type: 'NO_CONNECTION'});
+            } else {
+              setAlertMessage(loginErr);
+              setTimeout(() => setAlertModalVisible(true), 500);
+            }
+          }
+        } else {
+          if (err.message === ErrorCode.NETWORK_ERROR) {
+            dispatch({type: 'NO_CONNECTION'});
+          } else {
+            setAlertMessage(JSON.stringify(err));
+            setTimeout(() => setAlertModalVisible(true), 500);
+          }
+        }
+      } finally {
         setLoading(false);
-        setAlertMessage(err.message);
-        setTimeout(() => setAlertModalVisible(true), 500);
       }
-
-      // handleLogin(email.current, password.current).catch((err) => {
-      //   setLoading(false);
-      //   setAlertMessage(err.message);
-      //   setTimeout(() => setAlertModalVisible(true), 500);
-      // });
     }
   };
 
@@ -75,8 +104,8 @@ const Login = () => {
             </View>
             <View style={styles.thirds}>
               <TextInput
-                style={styles.username}
-                placeholder={'Email Address'}
+                style={styles.textInput}
+                placeholder={'email address'}
                 placeholderTextColor={'#0080ff'}
                 autoComplete={'email'}
                 autoCorrect={false}
@@ -87,8 +116,8 @@ const Login = () => {
                 onChangeText={(value) => onTextChange(email, value)}
               />
               <TextInput
-                style={styles.password}
-                placeholder={'Password'}
+                style={styles.textInput}
+                placeholder={'password'}
                 placeholderTextColor={'#0080ff'}
                 autoComplete={'password'}
                 autoCorrect={false}
@@ -106,8 +135,9 @@ const Login = () => {
               <TouchableOpacity
                 onPress={() => {
                   validateAndHandleLogin();
-                }}>
-                <Text style={styles.loginButton}>Login or Signup</Text>
+                }}
+                style={styles.loginButtonContainer}>
+                <Text style={styles.loginButtonText}>login or signup</Text>
               </TouchableOpacity>
             </View>
           </KeyboardAvoidingView>
@@ -132,7 +162,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 90,
+    fontSize: 80,
     ...Platform.select({
       ios: {
         fontWeight: '900',
@@ -144,7 +174,7 @@ const styles = StyleSheet.create({
     }),
     color: '#0080ff',
   },
-  username: {
+  textInput: {
     padding: 20,
     fontSize: 20,
     color: '#0080ff',
@@ -152,18 +182,17 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     width: '70%',
   },
-  password: {
-    padding: 20,
-    fontSize: 20,
-    color: '#0080ff',
-    borderBottomColor: '#0080ff',
-    borderBottomWidth: 1,
+  loginButtonContainer: {
+    paddingVertical: 10,
+    alignItems: 'center',
     width: '70%',
+    borderRadius: 10,
+    backgroundColor: '#0080ff',
   },
-  loginButton: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#0080ff',
+  loginButtonText: {
+    fontSize: 24,
+    fontWeight: '400',
+    color: '#FFFFFF',
   },
 });
 

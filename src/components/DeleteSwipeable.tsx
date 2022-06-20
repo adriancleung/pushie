@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Text,
   TouchableNativeFeedback,
+  View,
 } from 'react-native';
 
 type Props = {
@@ -15,7 +16,7 @@ type Props = {
 const DeleteSwipeable: React.FC<Props> = ({dragX, removeNotification}) => {
   const trans = dragX.interpolate({
     inputRange: [Dimensions.get('window').width * -0.3, 0],
-    outputRange: [0, Dimensions.get('window').width * 0.3 + 20],
+    outputRange: [0, Dimensions.get('window').width * 0.3],
     extrapolate: 'clamp',
   });
 
@@ -28,7 +29,9 @@ const DeleteSwipeable: React.FC<Props> = ({dragX, removeNotification}) => {
             transform: [{translateX: trans}],
           },
         ]}>
-        <Text style={styles.actionText}>Delete</Text>
+        <View style={styles.leftActionView}>
+          <Text style={styles.actionText}>Delete</Text>
+        </View>
       </Animated.View>
     </TouchableNativeFeedback>
   );
@@ -37,13 +40,16 @@ const DeleteSwipeable: React.FC<Props> = ({dragX, removeNotification}) => {
 const styles = StyleSheet.create({
   leftAction: {
     flex: 0.3,
+  },
+  leftActionView: {
+    flex: 1,
     marginVertical: 5,
     marginRight: 20,
     borderRadius: 10,
-    shadowRadius: 3,
-    shadowColor: 'grey',
-    shadowOffset: {height: 2, width: 0},
-    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    shadowColor: '#dadada',
+    shadowOffset: {height: 1, width: 0},
+    shadowOpacity: 1,
     elevation: 5,
     backgroundColor: 'rgb(255, 59, 48)',
     justifyContent: 'center',

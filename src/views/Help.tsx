@@ -26,21 +26,21 @@ const Help: React.FC<Props> = ({navigation}) => {
       <Text style={styles.howToText}>
         1. Create a <Menlo style={styles.menloText}>POST</Menlo> request to{' '}
         <Menlo style={styles.menloText}>
-          https://api.adrianleung.dev/pushie/notify
+          https://api.adrianleung.dev/notify
         </Menlo>{' '}
-        and set the header{' '}
-        <Menlo style={styles.menloText}>pushie-api-key</Menlo> to you API key.
+        and set the header <Menlo style={styles.menloText}>x-api-key</Menlo> to
+        you API key.
         {'\n\n'}2. In the JSON body, include a{' '}
         <Menlo style={styles.menloText}>title</Menlo> and a{' '}
         <Menlo style={styles.menloText}>shortDescription</Menlo>. A{' '}
         <Menlo style={styles.menloText}>description</Menlo> and a{' '}
-        <Menlo style={styles.menloText}>label</Menlo> are optional.
+        <Menlo style={styles.menloText}>label</Menlo> are both optional.
       </Text>
       <Text>Example CURL request:</Text>
       <CodeBlock>
-        {`curl -X POST https://api.adrianleung.dev/pushie/notify \\
+        {`curl -X POST https://api.adrianleung.dev/notify \\
   -H "Content-Type: application/json" \\
-  -H "pushie-api-key: INSERT_API_KEY" \\
+  -H "x-api-key: INSERT_API_KEY" \\
   -d @- <<'EOF'
   {
     "title":"Hello World!",
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   },
   howToText: {
     paddingVertical: 25,
-    fontSize: 20,
+    fontSize: 16,
     padding: 10,
     textAlign: 'justify',
   },

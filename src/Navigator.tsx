@@ -12,6 +12,8 @@ import {
   Home,
   License,
   Login,
+  NoConnection,
+  Onboarding,
   Settings,
 } from './views';
 import {useUser} from './context/UserContext';
@@ -68,31 +70,57 @@ const Navigator = () => {
   const {state: user} = useUser();
 
   useEffect(() => {
-    setTimeout(() => SplashScreen.hide(), 1000);
+    SplashScreen.hide();
   }, []);
 
-  return (
+  return !user.loading ? (
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
           ...TransitionPresets.SlideFromRightIOS,
         }}>
-        {!user.userId ? (
+        {!user.connection ? (
           <Stack.Screen
-            name={'Login'}
-            component={Login}
+            name={'NoConnection'}
+            component={NoConnection}
             options={{headerShown: false, animationTypeForReplace: 'pop'}}
           />
         ) : (
           <>
-            <Stack.Screen name={'Home'} component={Home} />
-            <Stack.Screen name={'SettingsStack'} component={SettingsStack} />
+            {user.onboarding ? (
+              <Stack.Screen
+                name={'Onboarding'}
+                component={Onboarding}
+                options={{headerShown: false, animationTypeForReplace: 'pop'}}
+              />
+            ) : (
+              <>
+                {!user.userId ? (
+                  <Stack.Screen
+                    name={'Login'}
+                    component={Login}
+                    options={{
+                      headerShown: false,
+                      animationTypeForReplace: 'pop',
+                    }}
+                  />
+                ) : (
+                  <>
+                    <Stack.Screen name={'Home'} component={Home} />
+                    <Stack.Screen
+                      name={'SettingsStack'}
+                      component={SettingsStack}
+                    />
+                  </>
+                )}
+              </>
+            )}
           </>
         )}
       </Stack.Navigator>
     </NavigationContainer>
-  );
+  ) : null;
 };
 
 const styles = StyleSheet.create({
