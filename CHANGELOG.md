@@ -6,14 +6,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 - Add password reset
+
+## [2.0.0] - TBA
+### Breaking Changes
+- A lot of backend chages which resulted in accounts not transferring over. Sorry for the inconvenience :(
+
+### Added
+- Add no connection screen
+- Add onboarding screen
 - Add label categories
 - Add filtering based on label categories
 - Add support for multiple devices
+
+### Changed
+- Update UI
 - Update "How to Use" screen with example
-
-## [1.3.0] - TBA
-
-## [1.3.0-rc.1] - TBA
+- Paginated scrolling support
 
 ## [1.2.0] - 2021-03-25
 ### Added
@@ -48,14 +56,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Instructions on how to use
 ## [1.0.0-rc.1] - 2021-01-30
 
-[Unreleased]: https://github.com/adriancleung/pushie/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/adriancleung/pushie/compare/v2.0.0...HEAD
 
-[1.3.0]: https://github.com/adriancleung/pushie/compare/v1.2.0...v1.3.0
+[2.0.0]: https://github.com/adriancleung/pushie/compare/v1.2.0...v2.0.0
 [1.2.0]: https://github.com/adriancleung/pushie/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/adriancleung/pushie/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/adriancleung/pushie/compare/eb5fe526ca94983854c772a9fdd8d360ab30d1d2...v1.0.0
 
-[1.3.0-rc.1]: https://github.com/adriancleung/pushie/compare/v1.2.0...v1.3.0-rc.1
 [1.2.0-rc.1]: https://github.com/adriancleung/pushie/compare/v1.1.0...v1.2.0-rc.1
 [1.1.0-rc.1]: https://github.com/adriancleung/pushie/compare/v1.0.0...v1.1.0-rc.1
 [1.0.0-rc.1]: https://github.com/adriancleung/pushie/releases/tag/v1.0.0-rc.1
