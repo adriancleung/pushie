@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# Create env file
+echo $API_URL > ../../.env
+
+# Create Google Services file
+echo $GOOGLE_SERVICES > ../GoogleService-Info.plist
+
 export HOMEBREW_NO_INSTALL_CLEANUP=TRUE
 brew install cocoapods
 # have to add node yourself
