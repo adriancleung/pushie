@@ -21,7 +21,7 @@
     "axios": "^0.21.1",
     "dotenv": "^8.2.0",
     "moment": "^2.29.1",
-    "moment-timezone": "^0.5.32",
+    "moment-timezone": "^0.5.35",
     "react": "16.13.1",
     "react-native": "0.63.4",
     "react-native-context-menu-view": "github:adriancleung/react-native-context-menu-view",
